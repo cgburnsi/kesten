@@ -21,6 +21,7 @@ A small, deterministic Python library for reproducing the steady-state numerical
 - Verification tolerances: `docs/verification/tolerances.md`
 - Verification golden index: `docs/verification/golden-index.md`
 - Verification regression protocol: `docs/verification/regression-protocol.md`
+- Vapor port blockers: `docs/verification/fortran-vapor-port-blockers.md`
 - Decision history: `docs/design/decisions.md`
 
 ## Repository layout
