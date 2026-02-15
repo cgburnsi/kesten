@@ -9,3 +9,4 @@
 - Added calibrated liquid-region control-curve slice (`physics_liquid_slice_v2`) to satisfy the table-level liquid regression gate while retaining deterministic behavior.
 - Added a dedicated regression runner with CLI `regress` mode and JSON failure artifacts under `artifacts/regression/` to support fast calibration of reconstructed physics slices against golden tables.
 - Added first liquid-vapor physics slice (`physics_liquid_vapor_slice_v1`) and completed table-level regression coverage for all three milestone-3 regions (liquid, vapor, liquid-vapor).
+- Added an experimental canonical-case 1D equation integrator for full-bed temperature profiles (`physics1d_equation.py`) and switched bed-length plotting to this equation-driven path.

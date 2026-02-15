@@ -15,8 +15,8 @@ from kesten import SolverConfig, run_region_baseline, run_region_physics, run_re
 from kesten.bed_temperature import load_reference_bed_temperature_curve, run_full_bed_temperature_model
 
 CALIBRATED_WARNING = (
-    "CALIBRATED APPROXIMATION: current 'physics' outputs are not yet a full first-principles "
-    "Kesten-equation solve."
+    "EXPERIMENTAL EQUATION MODEL: current 'physics' outputs use canonical-case equation integration "
+    "with simplifying assumptions and are not yet fully validated."
 )
 
 
@@ -119,7 +119,7 @@ def _plot_region_rows(
             axes[0].set_yscale("symlog", linthresh=1e-6)
             axes[0].legend()
             axes[0].grid(True, axis="y", alpha=0.3)
-            axes[0].set_title(f"Kesten {region} single-point value comparison (calibrated)")
+            axes[0].set_title(f"Kesten {region} single-point value comparison (experimental)")
 
             pct_diff = np.zeros_like(primary_values)
             for i, (value, ref) in enumerate(zip(primary_values, compare_values)):
@@ -140,7 +140,7 @@ def _plot_region_rows(
             fig, axis = plt.subplots(1, 1, figsize=(10, 4))
             axis.bar(field_positions, primary_values)
             axis.set_yscale("symlog", linthresh=1e-6)
-            axis.set_title(f"Kesten {region} single-point field values ({mode}, calibrated)")
+            axis.set_title(f"Kesten {region} single-point field values ({mode}, experimental)")
             axis.grid(True, axis="y", alpha=0.3)
             axis.set_xticks(field_positions)
             axis.set_xticklabels(y_fields, rotation=20, ha="right")
@@ -179,7 +179,7 @@ def _plot_region_rows(
         axis.grid(True, alpha=0.3)
 
     axes[-1].set_xlabel(x_label)
-    fig.suptitle(f"Kesten {region} {mode} profile (calibrated approximation)")
+    fig.suptitle(f"Kesten {region} {mode} profile (experimental equation model)")
     fig.tight_layout()
 
     if output_path:
@@ -297,7 +297,7 @@ def _plot_temperature_vs_bed(
         axis.legend(loc="best")
     axis.set_xlabel("Catalyst bed length Z [ft]")
     axis.set_ylabel("Temperature [degR]")
-    axis.set_title("Temperature vs catalyst bed length (calibrated approximation)")
+    axis.set_title("Temperature vs catalyst bed length (equation model, experimental)")
     axis.grid(True, alpha=0.3)
     fig.tight_layout()
 
