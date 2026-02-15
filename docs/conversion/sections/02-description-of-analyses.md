@@ -29,11 +29,12 @@ The associated amounts of ammonia, nitrogen, and hydrogen formed from decomposit
 $$
 2N_{2}H_{4} \rightarrow 2NH_{3}+N_{2}+H_{2}
 $$
-It should be noted that this is the overall reaction scheme determined experimentally for both homogeneous decomposition of hydrazine (Refs. 3, 4, 5) and low pressure heterogeneous decomposition of hydrazine on platinum surfaces (Ref. 6).\footnote{It is more commonly assumed, without benefit of experimental evidence, that the decomposition reaction is $3 N_{2}H_{4} \rightarrow 4 NH_{3}+N_{2}$, followed by dissociation of one of the four ammonia molecules to nitrogen and hydrogen.
-This two-step process leads to the same overall reaction cited above but assumes that a minimum of 25 percent of the ammonia produced by hydrazine decomposition also decomposes.
-The fractional ammonia dissociation, f, calculated assuming the validity of the two-step process is related by the fractional ammonia dissociation calculated in the present report by
-$$ (f)_{\text{two-step process}} = \frac{3}{4} (f)_{\text{present report}} + \frac{1}{4} $$
-}
+It should be noted that this is the overall reaction scheme determined experimentally for both homogeneous decomposition of hydrazine (Refs. 3, 4, 5) and low pressure heterogeneous decomposition of hydrazine on platinum surfaces (Ref. 6).
+
+Note: it is more commonly assumed (without direct experimental evidence) that decomposition proceeds as $3N_{2}H_{4} \rightarrow 4NH_{3}+N_{2}$, followed by dissociation of one ammonia molecule to nitrogen and hydrogen. This two-step process gives the same overall reaction above, but assumes at least 25% ammonia decomposition. The report gives the relation:
+$$
+(f)_{\text{two-step process}} = \frac{3}{4}(f)_{\text{present report}} + \frac{1}{4}
+$$
 
 In the remainder of the reaction camber, where $h_{i} > h_{i}^{V}$, heat is being supplied to the system by homogeneous as well as heterogeneous decomposition of hydrazine.
 In addition, at sufficiently high temperature, heat is removed from the system by the endothermic decomposition of ammonia.
@@ -70,7 +71,7 @@ $$
 $$
 k_{c}^{j}=\left(\frac{0.616}{\rho_{i}}\right)\left(\frac{\mu}{\rho_{i}{D_{i}}^{J}}\right)^{-0.667}\left(\frac{G}{A_{p}\mu}\right)^{-0.41}
 $$
-The changes in reactant concentrations with axial stance are then given by (THIS EQUATION NEEDS VERIFICATION WITH OTHER DOCUMENTS.  IT'S NOT READABLE ON THE .PDF AND GEMINI DID THE BEST IT COULD.)
+The changes in reactant concentrations with axial distance are then given by
 $$
 \frac{dc_{i}^{j}}{dz}=\rho_{i}\frac{dw_{i}^{J}}{dz} + w_{i}^{j}\frac{d\rho_{i}}{dz}
 $$
@@ -146,7 +147,6 @@ However, Eqs. (21) and (22), which must be solved simultaneously with the differ
 Hand calculations have indicated that convergence to solutions for $c_{p}(x)$ are difficult to achieve unless the initial estimates of the concentration distributions are fairly accurate.
 Methods have been developed for generating these estimates and iterative procedures have been devised which effect rapid convergence over a fairly wide range of conditions.
 These procedures are presently used as subroutines in the main program representing the steady-state model.
-%
 
 
 ## Two-Dimensional Steady-State Model
@@ -157,15 +157,12 @@ As in the one-dimensional model, catalytic reaction is assumed to be fast enough
 the hydrazine concentration at the surface of the catalyst particles at any location in the entrance region is then computed from the vapor pressure of liquid hydrazine in the interstitial phase at the same location.
 In the vapor regions of the reaction chamber, turbulent diffusion of heat and mass is considered as a mechanism for radial mixing.
 Radial heat and mass fluxes are computed as functions of temperature and reactant concentration gradients.
-Heat is being supplied to the system by homogeneous as well as heterogeneous decomposition of hydrazine, and is being removed from the system by the catalytic decomposition of ammonia.The change in enthalpy with axial distance at any radial location is related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
+Heat is being supplied to the system by homogeneous as well as heterogeneous decomposition of hydrazine, and is being removed from the system by the catalytic decomposition of ammonia. The change in enthalpy with axial distance at any radial location is related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
 
-% --- START FOOTNOTE FIX ---
-\stepcounter{footnote} 
 $$
-\frac{\partial h_{i}}{\partial z}=-\frac{1}{G}\left\{F(h_{i}-h_{F})+A_{p}h_{p}[T_{i}-(T_{p})_{s}]+H^{N_{2}H_{4}}r_{hom}^{N_{2}H_{4}}\delta + \frac{\partial q_{r}}{\partial r}\delta+\frac{q_{r}}{r}\delta+\frac{\partial T_{i}}{\partial r}\delta\sum_{j}N_{r}^{j}C_{F}^{J}\right\}\footnotemark
+\frac{\partial h_{i}}{\partial z}=-\frac{1}{G}\left\{F(h_{i}-h_{F})+A_{p}h_{p}[T_{i}-(T_{p})_{s}]+H^{N_{2}H_{4}}r_{hom}^{N_{2}H_{4}}\delta + \frac{\partial q_{r}}{\partial r}\delta+\frac{q_{r}}{r}\delta+\frac{\partial T_{i}}{\partial r}\delta\sum_{j}N_{r}^{j}C_{F}^{J}\right\}
 $$
-\footnotetext{Equations of this type are presented in somewhat different form in Ref. 7. The last term on the right-hand side of the equation reflects the heat transferred by the radial diffusion of mass.}
-% --- END FOOTNOTE FIX ---
+Note: equations of this type are presented in somewhat different form in Ref. 7. The last term on the right-hand side reflects heat transfer by radial diffusion of mass.
 
 The changes in reactant weight fractions in the interstitial phase with axial distance at any radial location are related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
 $$
@@ -230,10 +227,9 @@ It is assumed, therefore, that downstream of the injectors the mass flow rate pr
 
 ## Conversion Notes
 
-- This major section is a milestone-1 conversion draft.
+- This major section is converted and QA-reviewed for milestone 1.
 - Equation (11), previously marked unreadable in the legacy transcription source, was verified directly against `docs/reference/Kesten_1968_original.pdf` page 12 image.
-- Section is marked `converted` pending full review pass and consistency cleanup.
-- Some LaTeX-style footnote syntax is temporarily preserved to avoid semantic loss before source-image verification.
+- Section status is `reviewed` for milestone-1 goals.
 
 ## References
 
