@@ -5,7 +5,61 @@ It is not the full design spec. When in doubt, follow the docs listed below.
 
 ## Project intent 
 Build a small, correct, legible, modular, Python library that implements the steady-state numerical models described in A.S. Kesten's 1968 paper.
-- The first milestone is a minimal, testable solver loop and an automated test pipeline that catches regressions.
+
+### Milestones
+1. Quick, readable conversion of the original document including the Fortran source code
+2. Production-grade faithful conversion of the original document including the Fortran source code
+3. minimal, testable 1D solver that matches the results from the original paper
+4. Minimal, testable 2D solver that matches the results from the original paper
+
+## Execution priority (must follow)
+- Work milestone-by-milestone in order; do not start later milestones early unless explicitly approved.
+- During milestone 1, optimize for readability and speed of conversion over perfect layout fidelity.
+- During milestone 2, optimize for faithful structure/content parity with the original source.
+
+## Document conversion contract
+### Milestone 1 (quick readable conversion)
+- Goal: human-readable Markdown that preserves technical meaning.
+- Required preservation:
+  - section headings and section order
+  - equations (can be simplified formatting if mathematically equivalent)
+  - tables (can be simplified if values/labels remain accurate)
+  - figure captions and references
+  - Fortran listings with line integrity preserved
+- Allowed simplifications:
+  - minor typography/layout differences
+  - normalized whitespace and line wrapping
+  - modernized Markdown structure for readability
+
+### Milestone 2 (production-grade faithful conversion)
+- Goal: high-fidelity Markdown conversion suitable as canonical project documentation.
+- Required preservation:
+  - heading hierarchy and numbering parity
+  - equation symbols and indices exactly preserved
+  - table structure/labels/units preserved exactly
+  - references/footnotes/cross-references traceable and complete
+  - Fortran code blocks aligned with original structure and comments
+- Any ambiguity in source text should be called out explicitly in notes rather than silently normalized.
+
+## Numeric tolerance policy
+- Use combined threshold: `abs(err) <= max(abs_tol, rel_tol * max(1.0, abs(reference)))`.
+- Starter tolerances (intentionally pragmatic for reconstruction):
+  - liquid region: `abs_tol=1e-6`, `rel_tol=5e-4`
+  - vapor region: `abs_tol=1e-6`, `rel_tol=1e-3`
+  - liquid-vapor region: `abs_tol=1e-6`, `rel_tol=2e-3`
+- For tabulated outputs, require at least 95% of points to pass per table; log failing rows for review.
+- Tightening rule: after baseline parity is reached, reduce relative tolerances by 2x per milestone if tests remain stable.
+
+## Approval policy
+- Loose mode: the agent may make small and medium scoped edits autonomously, including adding files and restructuring docs when it improves milestone progress.
+- Ask before:
+  - deleting files
+  - major architecture rewrites
+  - dependency or tooling policy changes
+
+## Commit message convention
+- Use Conventional Commits: `type(scope): subject`
+- Preferred types: `docs`, `feat`, `fix`, `test`, `refactor`, `chore`.
 
 ## Source of truth (read these first)
 - README.md — how to install/run and what the repo is for
@@ -93,4 +147,3 @@ source .venv/bin/activate
 pip install -U pip
 pip install numpy matplotlib
 ```
-

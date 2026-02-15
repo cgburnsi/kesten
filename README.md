@@ -3,8 +3,16 @@
 A small, deterministic Python library for reproducing the steady-state numerical models described in A.S. Kesten (1968).
 
 ## Current milestone
-- Minimal, testable solver loop
-- Baseline regression-friendly test pipeline
+- Milestone 1: quick, readable conversion of the original document and Fortran source
+- Milestone 2: production-grade faithful conversion of the original document and Fortran source
+- Milestone 3+: solver reconstruction and verification against Kesten reference outputs
+
+## Current phase workflow
+- Conversion rules: `docs/conversion/spec.md`
+- Conversion progress log: `docs/conversion/worklog.md`
+- Conversion QA checklist: `docs/conversion/qa_checklist.md`
+- Verification tolerances: `docs/verification/tolerances.md`
+- Decision history: `docs/design/decisions.md`
 
 ## Repository layout
 - `src/` core library code
