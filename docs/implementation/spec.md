@@ -47,3 +47,9 @@ Extend milestone-3 approach to a minimal 2D solver with preserved modularity and
 ## Out of scope
 - Performance optimization beyond correctness and readability.
 - New dependencies beyond stdlib, NumPy, and Matplotlib.
+
+## Supporting references
+- `docs/implementation/module-plan.md`
+- `docs/implementation/test-matrix.md`
+- `docs/verification/golden-index.md`
+- `docs/verification/regression-protocol.md`

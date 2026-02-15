@@ -9,10 +9,17 @@ A small, deterministic Python library for reproducing the steady-state numerical
 
 ## Current phase workflow
 - Conversion rules: `docs/conversion/spec.md`
+- Conversion style guide: `docs/conversion/style-guide.md`
+- Conversion source mapping: `docs/conversion/source-map.md`
+- Conversion acceptance criteria: `docs/conversion/acceptance.md`
 - Conversion progress log: `docs/conversion/worklog.md`
 - Conversion QA checklist: `docs/conversion/qa_checklist.md`
 - Implementation rules (milestones 3-4): `docs/implementation/spec.md`
+- Implementation module plan: `docs/implementation/module-plan.md`
+- Implementation test matrix: `docs/implementation/test-matrix.md`
 - Verification tolerances: `docs/verification/tolerances.md`
+- Verification golden index: `docs/verification/golden-index.md`
+- Verification regression protocol: `docs/verification/regression-protocol.md`
 - Decision history: `docs/design/decisions.md`
 
 ## Repository layout

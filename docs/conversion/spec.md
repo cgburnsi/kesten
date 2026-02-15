@@ -47,6 +47,11 @@ Define how source materials are converted into both Markdown and LaTeX during mi
 5. Update progress in `docs/conversion/worklog.md`.
 6. Commit as a focused docs change.
 
+## Supporting references
+- `docs/conversion/style-guide.md`
+- `docs/conversion/source-map.md`
+- `docs/conversion/acceptance.md`
+
 ## Naming conventions
 - Suggested section files: `docs/conversion/sections/<NN>-<slug>.md`.
 - Use zero-padded section numbers where source numbering exists.
