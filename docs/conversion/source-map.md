@@ -5,8 +5,12 @@ Map source material to target conversion files so coverage is explicit and audit
 
 ## Mapping table
 | Source Location | Content Summary | Markdown Target | LaTeX Target | Status | Ambiguity Severity | Notes |
-|---|---|---|---|---|---|
-| TODO | TODO | TODO | TODO | not started | none | |
+|---|---|---|---|---|---|---|
+| `docs/reference/Kesten_1968_original.pdf` (front matter), transcribed from `docs/latex/kesten_1968.tex` lines 52-96 | Abstract, Foreword, Summary | `docs/conversion/sections/00-front-matter.md` | pending (milestone 2) | reviewed | none | Converted in reading order; no unresolved critical ambiguities. |
+| `docs/reference/Kesten_1968_original.pdf` (Introduction), transcribed from `docs/latex/kesten_1968.tex` lines 97-107 | Introduction | `docs/conversion/sections/01-introduction.md` | pending (milestone 2) | reviewed | none | Ref. [1]-[2] metadata pending bibliography pass. |
+| `docs/reference/Kesten_1968_original.pdf` (Description of Analyses), transcribed from `docs/latex/kesten_1968.tex` lines 108-338 and verified against PDF pages 12-13 for equation clarity | Description of Analyses (one- and two-dimensional models) | `docs/conversion/sections/02-description-of-analyses.md` | pending (milestone 2) | converted | major | Primary ambiguity in legacy transcription (Eq. 11) verified from source image; remaining work is formatting/consistency review, not critical interpretation. |
+| `docs/reference/Kesten_1968_original.pdf` (Discussion of One- and Two-Dimensional Steady-State Computer Programs), transcribed from `docs/latex/kesten_1968.tex` lines 339-1139 | Program discussion, input/output formats, and operational guidance | `docs/conversion/sections/03-discussion-of-programs.md` | pending (milestone 2) | converted | major | Readability cleanup pass completed; large tables/listings still require detailed fidelity review. |
+| `docs/reference/Kesten_1968_original.pdf` (Description of Subroutines), transcribed from `docs/latex/kesten_1968.tex` lines 1140-2062 | Subroutine descriptions, equations, and flowchart references | `docs/conversion/sections/04-description-of-subroutines.md` | pending (milestone 2) | converted | major | Readability cleanup pass completed; figure/listing blocks still require detailed fidelity review. |
 
 ## Coverage checks
 - Every source section/page range must map to at least one target file.

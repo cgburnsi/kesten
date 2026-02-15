@@ -1,0 +1,248 @@
+# 2. Description of Analyses
+The analysis of a hydrazine engine reaction system carried out to date pertains to a reaction chamber of arbitrary cross section packed with catalyst particles into which liquid hydrazine is injected at arbitrarily selected locations.
+Catalyst particles are represented as "equivalent" spheres with a diameter taken as a function of the particle size and shape.
+Both thermal and catalytic vapor phase decomposition of hydrazine and ammonia are considered in developing equations describing the concentration distributions of these reactants.
+Diffusion of reactants from the free-gas phase to the outside surface of the catalyst pellets is taken into account.
+Since the catalyst material is impregnated on the interior and exterior surfaces of porous particles, the diffusion of reactants into the porous structure must also be considered.
+In addition, the conduction of heat within the porous particles must be taken into account since the decomposition reactions are accompanied by the evolution or absorption of heat.
+
+## One-Dimensional Steady-State Model
+In developing the one-dimensional steady-state model, the temperature and reactant concentrations in the interstitial phase (i.e., the free-fluid phase as distinguished from the gas phase within the porous particles) are assumed to vary only with axial distance along the bed.
+In the entrance region of the reaction chamber, where the temperature is low enough to permit the existence of liquid hydrazine, vaporization of liquid is assumed to occur as a result of decomposition of vapor hydrazine within the pores of the catalyst particles.
+That is, catalytic reaction is assumed to be fast enough to keep liquid hydrazine from wetting the pores of the particles;
+the hydrazine concentration at the surface of the catalyst particles at any axial location in the entrance region is then computed from the vapor pressure of liquid hydrazine in the interstitial phase at the same axial location.
+Neglecting axial diffusion of heat or mass, the change in enthalpy of the interstitial phase in the region where liquid hydrazine is present (i.e., where $h_{i} \le h_{i}^{V}$) is related to the concentration gradient at the surface of the porous catalyst particles by
+$$
+G\frac{dh}{dz} + H^{N_{2}H_{4}}D_{p}A_{p}\left(\frac{dC_{P}^{N_{2}H_{4}}}{dx}\right)_{s} + F(h_{i}-h_{F})=0 \quad \text{for } h_{i} \le h_{i}^{V}
+$$
+The variation of mass flow rate, G, with axial distance is easily computed from the rate of feed of liquid hydrazine from the distributed injectors into the system.
+In the region where liquid hydrazine exists at temperatures below the vaporization temperature, the temperature may be obtained from
+$$
+T_{i}=T_{F}+\frac{h_{i}-h_{F}}{C_{F}} \quad \text{for } h_{i} < h_{i}^{L}
+$$
+In the two-phase region, where $T_i = T_{vap}$, the weight-fraction of vapor may be computed from
+$$
+\text{WEIGHT FRACTION VAPOR} = \frac{h_{i}-h_{i}^{L}}{h_{i}^{V}-h_{i}^{L}} \quad \text{for } h_{i}^{L} \le h_{i} \le h_{i}^{V}
+$$
+At the axial position at which the enthalpy of the interstitial phase is just equal to the enthalpy of vapor hydrazine at the boiling point ($h_{i} = h_{i}^{V}$), the fraction of hydrazine injected upstream of that point which has been decomposed is easily calculated from an overall heat balance.
+The associated amounts of ammonia, nitrogen, and hydrogen formed from decomposition of hydrazine can then be calculated taking the decomposition reaction as
+$$
+2N_{2}H_{4} \rightarrow 2NH_{3}+N_{2}+H_{2}
+$$
+It should be noted that this is the overall reaction scheme determined experimentally for both homogeneous decomposition of hydrazine (Refs. 3, 4, 5) and low pressure heterogeneous decomposition of hydrazine on platinum surfaces (Ref. 6).\footnote{It is more commonly assumed, without benefit of experimental evidence, that the decomposition reaction is $3 N_{2}H_{4} \rightarrow 4 NH_{3}+N_{2}$, followed by dissociation of one of the four ammonia molecules to nitrogen and hydrogen.
+This two-step process leads to the same overall reaction cited above but assumes that a minimum of 25 percent of the ammonia produced by hydrazine decomposition also decomposes.
+The fractional ammonia dissociation, f, calculated assuming the validity of the two-step process is related by the fractional ammonia dissociation calculated in the present report by
+$$ (f)_{\text{two-step process}} = \frac{3}{4} (f)_{\text{present report}} + \frac{1}{4} $$
+}
+
+In the remainder of the reaction camber, where $h_{i} > h_{i}^{V}$, heat is being supplied to the system by homogeneous as well as heterogeneous decomposition of hydrazine.
+In addition, at sufficiently high temperature, heat is removed from the system by the endothermic decomposition of ammonia.
+For $h_{i} > h_{i}^{V}$ then, the change in enthalpy with axial distance is related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
+$$
+\frac{d h_{i}}{d z}=-\frac{1}{G}\left\{F(h_{i}-h_{F})+A_{p}h_{c}[T_{i}-(T_{p})_{s}]+H^{N_{2}H_{4}}r_{hom}^{N_{2}H_{4}}\delta\right\}
+$$
+The changes in reactant weight fractions in the interstitial phase with axial distance are related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
+$$
+\frac{d{w_{i}}^{N_{2}H_{4}}}{d z}=\frac{1}{G}\left\{F-r_{hom}^{N_{2}H_{4}}\delta - A_{p}(k_{c}c_{i})^{N_{2}H_{4}} - F\left(\frac{c_{i}}{\rho_{i}}\right)^{N_{2}H_{4}}\right\}
+$$
+$$
+
+\frac{d{w_{i}}^{NH_{3}}}{dz}=\frac{1}{G}\left\{r_{hom}^{N_{2}H_{4}}\delta\frac{M^{NH_{3}}}{M^{N_{2}H_{4}}}\right. & +A_{p}(k_{c}c_{i})^{N_{2}H_{4}}\frac{M^{NH_{3}}}{M^{N_{2}H_{4}}} \\
+& \left. - A_{P}\left(k_{c}[c_{i}-(c_{p})_{s}]\right)^{NH_{3}}-F\left(\frac{c_{i}}{\rho_{i}}\right)^{NH_{3}}\right\}
+
+$$
+$$
+
+\frac{d{w_{i}}^{N_{2}}}{dz}=\frac{1}{G}\left\{\frac{1}{2}r_{hom}^{N_{2}H_{4}}\delta\frac{M^{N_{2}}}{M^{N_{2}H_{4}}}\right. & +\frac{A_{p}}{2}(k_{c}c_{i})^{N_{2}H_{4}}\frac{M^{N_{2}}}{M^{N_{2}H_{4}}} \\
+& \left. + \frac{A_{p}}{2}\left(k_{c}[C_{i}-(C_{p})_{s}]\right)^{NH_{3}}\frac{M^{N_{2}}}{M^{NH_{3}}}-F\left(\frac{C_{i}}{\rho_{i}}\right)^{N_{2}}\right\}
+
+$$
+$$
+
+\frac{d{w_{i}}^{H_{2}}}{dz}=\frac{1}{G}\left\{\frac{1}{2}r_{hom}^{N_{2}H_{4}}\delta\frac{M^{H_{2}}}{M^{N_{2}H_{4}}}\right. & +\frac{A_{p}}{2}(k_{c}c_{i})^{N_{2}H_{4}}\frac{M^{H_{2}}}{M^{N_{2}H_{4}}} \\
+& \left. + \frac{3A_{p}}{2}\left(k_{c}[c_{i}-(C_{p})_{s}]\right)^{NH_{3}}\frac{M^{H_{2}}}{M^{NH_{3}}}-F\left(\frac{c_{i}}{\rho_{i}}\right)^{H_{2}}\right\}
+
+$$
+where the film coefficients, $h_{c}$ and $k_{c}$, may be estimated from (Ref. 7)
+$$
+h_{c}=0.74\left(\frac{G}{A_{p}\mu}\right)^{-0.41}(\overline{C}_{F}G)
+$$
+$$
+k_{c}^{j}=\left(\frac{0.616}{\rho_{i}}\right)\left(\frac{\mu}{\rho_{i}{D_{i}}^{J}}\right)^{-0.667}\left(\frac{G}{A_{p}\mu}\right)^{-0.41}
+$$
+The changes in reactant concentrations with axial stance are then given by (THIS EQUATION NEEDS VERIFICATION WITH OTHER DOCUMENTS.  IT'S NOT READABLE ON THE .PDF AND GEMINI DID THE BEST IT COULD.)
+$$
+\frac{dc_{i}^{j}}{dz}=\rho_{i}\frac{dw_{i}^{J}}{dz} + w_{i}^{j}\frac{d\rho_{i}}{dz}
+$$
+where
+$$
+\frac{d\rho_{i}}{dz}=\rho_{1}\left[\frac{1}{\overline{M}}\frac{d\overline{M}}{dz}-\frac{1}{T_{1}}\frac{dT_{1}}{dz}+\frac{1}{P}\frac{dP}{dz}\right]
+$$
+and
+$$
+\frac{1}{\overline{M}}\frac{d\overline{M}}{dz}=-\frac{1}{\sum_{J}\frac{w_{1}^{J}}{M^{j}}}\sum_{J}\frac{1}{M^{J}}\frac{dw_{i}^{J}}{dz}
+$$
+$$
+\frac{dP}{dz}=-\left(\frac{1-\delta}{\delta^{3}}\right)\left(1.75+\frac{150(1-\delta)}{2 a G/\mu}\right)\left(\frac{G^{2}}{2 a \rho_{i}g_{c}}\right)
+$$
+The temperature of the interstitial phase in this region is related to the enthalpy by
+$$
+h_{i}-h_{i}^{V}=\int_{T_{vap}}^{T_{i}}C_{F}dT_{i}
+$$
+It should be noted that the hydrazine concentration at the surface of a catalyst particle in the vapor region, $(c_{p})_{s}^{N2H4}$, is taken as zero.
+This reflects the fact that the catalytic reaction is so fast that the rate of decomposition is controlled by the rate of diffusion of hydrazine from the bulk vapor, through a stagnant gas film surrounding the catalyst particles, to the outside surface of the particles.
+In the case of ammonia, film diffusion is rapid relative to the rate of dissociation of ammonia within the particles.
+The concentration of ammonia at the surface of the catalyst particles, $(c_{p})_{s}^{NH_{3}}$, is therefore fairly close to the ammonia concentrations in the bulk vapor phase, $c_{i}^{NH_{3}}$.
+The surface concentration can be calculated, along with the concentration profile in the porous particles, at any axial location by solving simultaneously the equations representing film and pore diffusion of heat and mass.
+In describing the diffusion of mass within a porous pellet, it is assumed that changes in the mass density of fluid within the particle are negligible relative to changes in concentration of the reacting species.
+In addition, pressure changes within the particle resulting from nonequimolar diffusion are neglected, as is heat transported by pore diffusion of mass.
+Assuming constant diffusion coefficients, $D_{p}$, and thermal conductivities, $K_{p}$, the equations describing heat and mass transfer within a catalyst particle may be written as
+$$
+D_{P}^{NH_{3}}\nabla^{2}c_{p}^{NH_{3}}-r_{het}^{NH_{3}}=0
+$$
+$$
+K_{p}\nabla^{2}T_{p}-H^{NH_3}r_{het}^{NH_3}=0
+$$
+The boundary conditions which consider diffusion of heat, and mass through a film surrounding a spherical particle are
+$$
+D_{P}^{NH_{3}}\left(\frac{dC_{p}}{dx}\right)_{s}^{NH_{3}}=k_{c}^{NH_{3}}\left[c_{i}^{NH_{3}}-(c_{p})_{s}^{NH_{3}}\right]
+$$
+and
+$$
+(Hk_{c}c_{i})^{N_{2}H_{4}}+H^{NH_{3}}D_{p}^{NH_{3}}\left(\frac{dc_{p}}{dx}\right)_{s}^{NH_{3}}=h_{c}[T_{i}-(T_{p})_{s}]
+$$
+Using Eqs. (16) and (17), Prater (Ref. 8) has pointed out that temperature and concentration are related quite simply by
+$$
+T_{p}-(T_{p})_{s}=\frac{HD_{p}}{K_{p}}[(c_{p})_{s}-c_{p}]
+$$
+The use of this relationship enables the reaction rate, $r_{het}^{NH3}$, to be written as a function of concentration alone instead of concentration and temperature.
+In this case, however, the reaction rate is a function of two parameters, $(T_{p})_{s}$ and $(c_{p})_{s}^{NH_{3}}$, which are yet to be determined.
+Equation 16 can be solved for the concentration at any point in the porous particle in terms of the reaction rate, $r_{het}^{NH_{3}}$, and the interstitial concentration, $c_{i}^{NH_{3}}$.
+The solution is derived in Refs. 2 and 9 as an implicit integral equation given by
+$$
+
+C_{p}(x) = c_{i}^{NH_{3}} - \left[\frac{1}{x}-\frac{ak_{c}^{NH_{3}}-D_{p}^{NH_{3}}}{a^{2}k_{c}^{NH_{3}}}\right]\int_{0}^{x}\xi^{2}\frac{r_{het}^{NH_{3}}(c_{p})}{D_{p}^{NH_{3}}} d\xi \\
+- \int_{x}^{a}\left[\frac{1}{\xi}-\frac{ak_{c}^{NH_{3}}-D_{p}^{NH_{3}}}{a^{2}k_{c}^{NH_{3}}}\right]\xi^{2}\frac{r_{het}^{NH_{3}}(c_{p})}{D_{p}^{NH_{3}}}d\xi
+
+$$
+In order to determine the particle ammonia concentration profile directly in terms of the interstitial temperature adn reactant concentrations it is necessary to solve Eqs.
+18, 19 and 21 simultaneously.  In the special case of negligible film resistance to heat and mass transfer (i.e. $(T_{p})_{s}=T_{i}$ and $(c_{p})_{s}=c_{i}$), Eq.
+(21) can be written, for any reacting species, as
+$$
+C_{p}(x)=c_{i} - \left[\frac{1}{x}-\frac{1}{a}\right]\int_{0}^{x}\xi^{2}\frac{r_{het}(c_{p})}{D_{p}}d\xi - \int_{x}^{a}\left[\frac{1}{\xi}-\frac{1}{a}\right]\xi^{2}\frac{r_{het}(c_{p})}{D_{p}}d\xi
+$$
+It is Eq. (22) which is used to describe the hydrazine concentration profiles within the catalyst particles located in the liquid region of the reaction chamber.
+In this liquid region it is assumed that liquid hydrazine wets the outside surface of the catalyst particles so that $(c_{p})_{s}^{N2H4} = c_{i}^{N2H4}$, where $c_{i}^{N2H4}$ is the vapor concentration in equilibrium with liquid hydrazine at temperature $T_{i}$.
+In the liquid-vapor region the situation is somewhat more complicated since it is difficult to predict whether liquid or a combination of liquid and vapor wets the outside surface of the catalyst particles.
+Both of these options are presently in the computer program representing the steady-state model.
+In the case in which both the liquid and vapor are taken to wet the particle surface, it is assumed that, at a given axial location, the fraction of the surface covered by vapor is equal to the weight-fraction of vapor present.
+Decomposition rates, computed assuming pure liquid surface coverage and then pure vapor coverage, are weighted accordingly.
+Fortuitously, for the system considered here, the liquid vapor region is so narrow that the choice of either of these options has negligible effect on the resulting temperature distributions (Ref. 1).
+
+Finite difference methods have been used to program for digital computation the ordinary differential equations describing the changes in enthalpy and reactant concentrations in the interstitial phase.
+No iteration is necessary to solve these equations numerically when the incremental axial distances are sufficiently small.
+The size of a succeeding increment is calculated at each axial position as a function of the rates of change of temperature and fractional ammonia dissociation with axial distance.
+However, Eqs. (21) and (22), which must be solved simultaneously with the differential equations, are implicit integral equations which require iterative procedures for solution.
+Hand calculations have indicated that convergence to solutions for $c_{p}(x)$ are difficult to achieve unless the initial estimates of the concentration distributions are fairly accurate.
+Methods have been developed for generating these estimates and iterative procedures have been devised which effect rapid convergence over a fairly wide range of conditions.
+These procedures are presently used as subroutines in the main program representing the steady-state model.
+%
+
+
+## Two-Dimensional Steady-State Model
+In developing the two-dimensional steady-state model of a hydrazine reactor system the temperature and reactant concentrations in the bulk fluid phase are permitted to vary with radial and axial position in the reaction chamber.
+In the entrance region of the reactor, where the temperature is low enough to permit the existence of liquid hydrazine, radial mixing between adjacent layers of liquid is neglected.
+The equations representing the change in liquid enthalpy and temperature with axial distance at any radial position are the same as those developed for the one-dimensional model described previously.
+As in the one-dimensional model, catalytic reaction is assumed to be fast enough to keep liquid hydrazine from wetting the pores of the particles;
+the hydrazine concentration at the surface of the catalyst particles at any location in the entrance region is then computed from the vapor pressure of liquid hydrazine in the interstitial phase at the same location.
+In the vapor regions of the reaction chamber, turbulent diffusion of heat and mass is considered as a mechanism for radial mixing.
+Radial heat and mass fluxes are computed as functions of temperature and reactant concentration gradients.
+Heat is being supplied to the system by homogeneous as well as heterogeneous decomposition of hydrazine, and is being removed from the system by the catalytic decomposition of ammonia.The change in enthalpy with axial distance at any radial location is related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
+
+% --- START FOOTNOTE FIX ---
+\stepcounter{footnote} 
+$$
+\frac{\partial h_{i}}{\partial z}=-\frac{1}{G}\left\{F(h_{i}-h_{F})+A_{p}h_{p}[T_{i}-(T_{p})_{s}]+H^{N_{2}H_{4}}r_{hom}^{N_{2}H_{4}}\delta + \frac{\partial q_{r}}{\partial r}\delta+\frac{q_{r}}{r}\delta+\frac{\partial T_{i}}{\partial r}\delta\sum_{j}N_{r}^{j}C_{F}^{J}\right\}\footnotemark
+$$
+\footnotetext{Equations of this type are presented in somewhat different form in Ref. 7. The last term on the right-hand side of the equation reflects the heat transferred by the radial diffusion of mass.}
+% --- END FOOTNOTE FIX ---
+
+The changes in reactant weight fractions in the interstitial phase with axial distance at any radial location are related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
+$$
+
+\frac{\partial{w_{i}}^{N_{2}H_{4}}}{\partial z}=\frac{1}{G}\left\{F-r_{hom}^{N_{2}H_{4}}\delta\right. & -A_{p}(k_{c}c_{i})^{N_{2}H_{4}} \\
+& \left. -\frac{\partial{N_{r}}^{N_{2}H_{4}}}{\partial r}\delta-\frac{N_{r}^{N_{2}H_{4}}}{r}\delta-F\left(\frac{c_i}{\rho_i}\right)^{N_{2}H_{4}}\right\}
+
+$$
+$$
+
+\frac{\partial{w_{i}}^{NH_{3}}}{\partial z}=\frac{1}{G}\left\{r_{hom}^{N_{2}H_{4}}\delta\frac{M^{NH_{3}}}{M^{N_{2}H_{4}}}\right. & +A_{p}(k_{c}c_{i})^{N_{2}H_{4}}\frac{M^{NH_{3}}}{M^{N_{2}H_{4}}} - A_{p}\left(k_{c}[c_{i}-(c_{p})_{S}]\right)^{NH_{3}} \\
+& \left. -\frac{\partial N_{r}^{NH_{3}}}{\partial r}\delta-\frac{N_{r}^{NH_{3}}}{r}\delta-F\left(\frac{c_{i}}{\rho_{i}}\right)^{NH_{3}}\right\}
+
+$$
+$$
+
+\frac{\partial{w_{i}}^{N_{2}}}{\partial z}=\frac{1}{G}\left\{\frac{1}{2}r_{hom}^{N_{2}H_{4}}\delta\frac{M^{N_{2}}}{M^{N_{2}H_{4}}}\right. & +\frac{A_{P}}{2}(k_{c}c_{i})^{N_{2}H_{4}}\frac{M^{N_{2}}}{M^{N_{2}H_{4}}} + \frac{A_{p}}{2}\left(k_{c}[c_{i}-(c_{p})_{s}]\right)^{NH_{3}}\frac{M^{N_{2}}}{M^{NH_{3}}} \\
+& \left. -\frac{\partial{N_{r}}^{N_{2}}}{\partial r}\delta-\frac{N_{r}^{N_{2}}}{r}\delta-F\left(\frac{c_{i}}{\rho_{i}}\right)^{N_{2}}\right\}
+
+$$
+$$
+
+\frac{\partial{w_{i}}^{H_{2}}}{\partial z}=\frac{1}{G}\left\{\frac{1}{2}r_{hom}^{N_{2}H_{4}}\delta\frac{M^{H_{2}}}{M^{N_{2}H_{4}}}\right. & +\frac{A_{p}}{2}(k_{c}c_{i})^{N_{2}H_{4}}\frac{M^{H_{2}}}{M^{N_{2}H_{4}}} + \frac{3A_{p}}{2}\left(k_{c}[c_{i}-(c_{p})_{s}]\right)^{NH_{3}}\frac{M^{H_{2}}}{M^{NH_{3}}} \\
+& \left. -\frac{\partial N_{r}^{H_{2}}}{\partial r}\delta-\frac{N_{r}^{H_{2}}}{r}\delta-F\left(\frac{c_{i}}{\rho_{i}}\right)^{H_{2}}\right\}
+
+$$
+where
+$$
+q_{r}=-\lambda(\partial T_{i}/\partial r)
+$$
+$$
+N_{r}^{J}=-\epsilon(\partial c_{i}^{J}/\partial r)_r
+$$
+$$
+h_{c}=0.74\left[\frac{G}{A_{p}\mu}\right]^{-0.41}[\overline{C}_{F}G]
+$$
+$$
+k_{c}^{J}=\left[\frac{0.616}{\rho i}\right]\left[\frac{\mu}{\rho_{i} D_{i}^{J}}\right]^{-0.667}\left[\frac{G}{A_p \mu}\right]^{-0.41}
+$$
+The eddy conductivity and diffusivity may be estimated from (Ref. 11)
+$$
+\lambda=\frac{a\overline{C}_{F}G}{5\delta} \quad \text{and} \quad \epsilon=\frac{aG}{5\rho_{i}}
+$$
+The changes in reactant concentrations with axial distance are then given by
+$$
+\frac{\partial{c_{i}}^{J}}{\partial z}=\rho_{i}\frac{\partial{w_{i}}^{J}}{\partial z}+\frac{c_{i}^{J}}{\rho_i}\frac{\partial\rho_{i}}{\partial z}
+$$
+where
+$$
+\frac{\partial\rho_{i}}{\partial z}=\rho_{i}\left[\frac{1}{\overline{M}}\frac{\partial\overline{M}}{\partial z}-\frac{1}{T_{i}}\frac{\partial T_{i}}{\partial z}+\frac{1}{P}\frac{dP}{dz}\right]
+$$
+$$
+\frac{1}{\overline{M}}\frac{\partial\overline{M}}{\partial z}=-\frac{1}{\sum_{J}(w_{i}^{J}/M^{J})}\sum_{J}\frac{1}{M^{J}}\frac{\partial{w_{i}}^{J}}{\partial z}
+$$
+and the pressure drop may be estimated from the Ergun equation (Ref. 7) as
+$$
+\frac{d p}{dz}=-\left(\frac{1-\delta}{\delta^{3}}\right)\left(1.75+\frac{150(1-\delta)}{2 a G/\mu}\right)\left(\frac{G^{2}}{2 a \rho_{i}g_{c}}\right)
+$$
+The mass flow rate, {G}, is computed as a function of the rate of feed of liquid hydrazine from the distributed injectors into the system.
+Bulk radial flow, caused by particle-fluid viscous interactions, is neglected.
+It is assumed, therefore, that downstream of the injectors the mass flow rate profile remains unchanged.
+
+## Conversion Notes
+
+- This major section is a milestone-1 conversion draft.
+- Equation (11), previously marked unreadable in the legacy transcription source, was verified directly against `docs/reference/Kesten_1968_original.pdf` page 12 image.
+- Section is marked `converted` pending full review pass and consistency cleanup.
+- Some LaTeX-style footnote syntax is temporarily preserved to avoid semantic loss before source-image verification.
+
+## References
+
+[3] Placeholder (homogeneous hydrazine decomposition reference).
+[4] Placeholder.
+[5] Placeholder.
+[6] Placeholder (heterogeneous platinum-surface decomposition reference).
+[7] Placeholder (film-coefficient and Ergun-correlation reference).
+[8] Placeholder (Prater relation reference).
+[9] Placeholder (integral-equation derivation reference).
+[10] Placeholder.
+[11] Placeholder (eddy conductivity/diffusivity reference).
