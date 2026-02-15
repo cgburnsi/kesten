@@ -7,14 +7,7 @@ SRC_DIR = ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from kesten import REGION_TOLERANCES, compare_rows, load_region_rows, run_region_baseline
-
-
-REGION_FIELDS = {
-    "liquid": ("Z", "TEMP", "H", "DHDZ"),
-    "vapor": ("Z", "TEMP", "P", "H", "C1", "C2", "C3", "C4"),
-    "liquid_vapor": ("Z", "TEMP", "H", "WFV"),
-}
+from kesten import REGION_FIELDS, REGION_TOLERANCES, compare_rows, load_region_rows, run_region_baseline
 
 
 class TestGoldenParsers(unittest.TestCase):

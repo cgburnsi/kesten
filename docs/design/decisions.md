@@ -7,3 +7,4 @@
 - Added a milestone-3 regression harness that parses all current golden files and compares baseline outputs under tolerance policy.
 - Chose an explicit `golden_replay_baseline` mode for initial regression plumbing; this is temporary scaffolding and will be replaced by reconstructed physics while keeping the same regression interface and tests.
 - Added initial reconstructed liquid-region physics slice (`physics_liquid_slice_v1`) using deterministic enthalpy stepping, linear temperature relation, and exponential DHDZ profile anchored to region endpoints.
+- Added a dedicated regression runner with CLI `regress` mode and JSON failure artifacts under `artifacts/regression/` to support fast calibration of reconstructed physics slices against golden tables.

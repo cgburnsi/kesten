@@ -58,6 +58,12 @@ python examples/ex02_baseline_regression.py
 python app/run_solver.py --mode physics --region liquid
 ```
 
+## Run regression gate
+```sh
+python app/run_solver.py --mode regress --region liquid --source baseline
+python app/run_solver.py --mode regress --region liquid --source physics
+```
+
 ## Build LaTeX PDF
 ```sh
 tools/build_pdf.sh

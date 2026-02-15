@@ -9,6 +9,10 @@ Standardize how regression comparisons are run and how failures are handled.
 3. Emit per-value pass/fail records and summary pass percentage.
 4. Store failure details sufficient for reproduction.
 
+Current CLI path:
+- `python app/run_solver.py --mode regress --region liquid --source baseline`
+- `python app/run_solver.py --mode regress --region liquid --source physics`
+
 ## Failure logging requirements
 - Test/case identifier
 - Golden file and row/column index
@@ -17,6 +21,10 @@ Standardize how regression comparisons are run and how failures are handled.
 - Absolute error
 - Relative error
 - Applied tolerances
+- Artifact path (when failures are written)
+
+Current artifact convention:
+- `artifacts/regression/<region>_<source>_failures.json`
 
 ## Decision policy for failures
 - If failures are due to code changes: treat as regression until explained and approved.
