@@ -12,6 +12,8 @@ Standardize how regression comparisons are run and how failures are handled.
 Current CLI path:
 - `python app/run_solver.py --mode regress --region liquid --source baseline`
 - `python app/run_solver.py --mode regress --region liquid --source physics`
+- `python app/run_solver.py --mode regress --region vapor --source baseline`
+- `python app/run_solver.py --mode regress --region vapor --source physics`
 
 ## Failure logging requirements
 - Test/case identifier

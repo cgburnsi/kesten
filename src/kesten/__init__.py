@@ -5,6 +5,7 @@ from .liquid_physics import LiquidPhysicsConfig, run_liquid_region_physics
 from .regression import REGION_TOLERANCES, ToleranceSpec, compare_rows
 from .regression_runner import REGION_FIELDS, run_region_regression
 from .solver import SolverConfig, run_region_baseline, run_region_physics, run_solver
+from .vapor_physics import VaporPhysicsConfig, run_vapor_region_physics
 
 __all__ = [
     "REGION_TOLERANCES",
@@ -19,4 +20,6 @@ __all__ = [
     "run_region_physics",
     "run_region_regression",
     "run_solver",
+    "VaporPhysicsConfig",
+    "run_vapor_region_physics",
 ]

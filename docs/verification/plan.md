@@ -13,4 +13,5 @@ Verify that the implemented numerical loop is deterministic, stable, and aligned
 - Baseline deterministic solver loop checks (`tests/test_solver.py`).
 - File-based regression harness checks for liquid, vapor, and liquid-vapor reference outputs (`tests/test_regression_baseline.py`).
 - Reconstructed liquid-region physics slice is available behind CLI `--mode physics --region liquid` and covered by `tests/test_liquid_physics.py`.
-- Next stage adds tolerance-gate comparison between reconstructed liquid physics output and the liquid golden table.
+- Reconstructed vapor-region physics slice is available behind CLI `--mode physics --region vapor` and covered by `tests/test_vapor_physics.py`.
+- Next stage calibrates the reconstructed liquid physics slice until it meets the liquid tolerance gate.
