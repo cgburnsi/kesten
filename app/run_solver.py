@@ -12,6 +12,7 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from kesten import SolverConfig, run_region_baseline, run_region_physics, run_region_regression, run_solver
+from kesten.bed_temperature import load_reference_bed_temperature_curve, run_full_bed_temperature_model
 
 
 def parse_args() -> argparse.Namespace:
@@ -215,6 +216,9 @@ def _plot_iterate_result(result: Dict[str, object], output_path: str = "") -> No
 
 
 def _collect_bed_temperature_points(source: str) -> List[Dict[str, float]]:
+    if source == "physics":
+        return run_full_bed_temperature_model()
+
     region_order = ("liquid", "liquid_vapor", "vapor")
     points: List[Dict[str, float]] = []
 
@@ -237,30 +241,6 @@ def _collect_bed_temperature_points(source: str) -> List[Dict[str, float]]:
 
     points.sort(key=lambda item: item["Z"])
     return points
-
-
-def _load_reference_temperature_curve(path: str) -> List[Dict[str, float]]:
-    curve_path = Path(path)
-    if not curve_path.exists():
-        return []
-
-    rows: List[Dict[str, float]] = []
-    for line in curve_path.read_text(encoding="utf-8").splitlines():
-        text = line.strip()
-        if not text:
-            continue
-        parts = [item.strip() for item in text.split(",")]
-        if len(parts) < 2:
-            continue
-        try:
-            z_value = float(parts[0])
-            temp_value = float(parts[1])
-        except ValueError:
-            continue
-        rows.append({"Z": z_value, "TEMP": temp_value})
-
-    rows.sort(key=lambda item: item["Z"])
-    return rows
 
 
 def _plot_temperature_vs_bed(
@@ -329,7 +309,7 @@ def _plot_temperature_vs_bed(
 
 def main() -> None:
     args = parse_args()
-    reference_curve_points = _load_reference_temperature_curve(args.temp_curve_file)
+    reference_curve_points = load_reference_bed_temperature_curve(args.temp_curve_file)
     if args.mode == "baseline":
         baseline_result = run_region_baseline(args.region)
         baseline_result["row_count"] = len(baseline_result["rows"])

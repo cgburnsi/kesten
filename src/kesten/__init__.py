@@ -1,5 +1,6 @@
 """Core package for Kesten 1968 model implementations."""
 
+from .bed_temperature import BedTemperatureModelConfig, load_reference_bed_temperature_curve, run_full_bed_temperature_model
 from .golden_data import load_region_rows
 from .liquid_physics import LiquidPhysicsConfig, run_liquid_region_physics
 from .liquid_vapor_physics import LiquidVaporPhysicsConfig, run_liquid_vapor_region_physics
@@ -9,6 +10,7 @@ from .solver import SolverConfig, run_region_baseline, run_region_physics, run_s
 from .vapor_physics import VaporPhysicsConfig, run_vapor_region_physics
 
 __all__ = [
+    "BedTemperatureModelConfig",
     "REGION_TOLERANCES",
     "REGION_FIELDS",
     "LiquidPhysicsConfig",
@@ -16,8 +18,10 @@ __all__ = [
     "SolverConfig",
     "ToleranceSpec",
     "compare_rows",
+    "load_reference_bed_temperature_curve",
     "load_region_rows",
     "run_region_baseline",
+    "run_full_bed_temperature_model",
     "run_liquid_region_physics",
     "run_liquid_vapor_region_physics",
     "run_region_physics",

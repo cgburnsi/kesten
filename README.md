@@ -84,6 +84,8 @@ python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-c
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-curve-source both --plot-output artifacts/plots/temp_vs_bed_model_vs_reference.png
 ```
 
+Note: `--plot-temp-bed` now uses a dedicated full-bed calibrated temperature model for `physics` source, rather than stitching sparse region outputs.
+
 ## Run regression gate
 ```sh
 python app/run_solver.py --mode regress --region liquid --source baseline
