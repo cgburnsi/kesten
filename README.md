@@ -73,6 +73,11 @@ python app/run_solver.py --mode iterate --initial 0 --target 1 --max-iterations 
 # Compare physics vs baseline in one plot (especially useful for vapor single-point case)
 python app/run_solver.py --mode physics --region vapor --plot --plot-compare
 python app/run_solver.py --mode physics --region vapor --plot-output artifacts/plots/vapor_compare.png --plot-compare
+
+# Temperature vs catalyst bed length (full-bed profile)
+python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot
+python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot-output artifacts/plots/temp_vs_bed_physics.png
+python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot-compare --plot-output artifacts/plots/temp_vs_bed_compare.png
 ```
 
 ## Run regression gate
