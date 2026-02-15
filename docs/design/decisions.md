@@ -8,3 +8,4 @@
 - Chose an explicit `golden_replay_baseline` mode for initial regression plumbing; this is temporary scaffolding and will be replaced by reconstructed physics while keeping the same regression interface and tests.
 - Added calibrated liquid-region control-curve slice (`physics_liquid_slice_v2`) to satisfy the table-level liquid regression gate while retaining deterministic behavior.
 - Added a dedicated regression runner with CLI `regress` mode and JSON failure artifacts under `artifacts/regression/` to support fast calibration of reconstructed physics slices against golden tables.
+- Added first liquid-vapor physics slice (`physics_liquid_vapor_slice_v1`) and completed table-level regression coverage for all three milestone-3 regions (liquid, vapor, liquid-vapor).

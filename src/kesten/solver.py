@@ -5,6 +5,7 @@ from typing import Dict, List
 
 from .golden_data import load_region_rows
 from .liquid_physics import run_liquid_region_physics
+from .liquid_vapor_physics import run_liquid_vapor_region_physics
 from .vapor_physics import run_vapor_region_physics
 
 
@@ -81,11 +82,12 @@ def run_region_physics(region: str) -> Dict[str, object]:
             "rows": rows,
         }
 
-    if normalized_region != "liquid_vapor":
-        raise NotImplementedError(
-            f"Unsupported region '{region}'"
-        )
+    if normalized_region == "liquid_vapor":
+        rows = run_liquid_vapor_region_physics()
+        return {
+            "region": normalized_region,
+            "mode": "physics_liquid_vapor_slice_v1",
+            "rows": rows,
+        }
 
-    raise NotImplementedError(
-        "Physics mode for 'liquid_vapor' is not implemented yet"
-    )
+    raise NotImplementedError(f"Unsupported region '{region}'")

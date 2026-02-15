@@ -11,6 +11,9 @@ Define scope and acceptance criteria for milestones 3 and 4 (Python solver creat
 ### Goal
 Produce a deterministic 1D solver path that reproduces Kesten reference behavior within project tolerances.
 
+### Status
+- Completed (all current milestone-3 acceptance criteria met).
+
 ### Required outputs
 - Core solver module(s) under `src/`
 - Thin CLI entry points under `app/` (if needed)

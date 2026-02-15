@@ -5,7 +5,8 @@ A small, deterministic Python library for reproducing the steady-state numerical
 ## Current milestone
 - Milestone 1: quick, readable conversion of the original document and Fortran source
 - Milestone 2: production-grade faithful conversion of the original document and Fortran source
-- Milestone 3+: solver reconstruction and verification against Kesten reference outputs
+- Milestone 3: completed baseline 1D reconstruction and regression gates
+- Milestone 4+: 2D solver reconstruction and verification against Kesten reference outputs
 
 ## Current phase workflow
 - Conversion rules: `docs/conversion/spec.md`
@@ -56,12 +57,16 @@ python examples/ex02_baseline_regression.py
 ## Run liquid physics slice
 ```sh
 python app/run_solver.py --mode physics --region liquid
+python app/run_solver.py --mode physics --region vapor
+python app/run_solver.py --mode physics --region liquid_vapor
 ```
 
 ## Run regression gate
 ```sh
 python app/run_solver.py --mode regress --region liquid --source baseline
 python app/run_solver.py --mode regress --region liquid --source physics
+python app/run_solver.py --mode regress --region vapor --source physics
+python app/run_solver.py --mode regress --region liquid_vapor --source physics
 ```
 
 ## Build LaTeX PDF

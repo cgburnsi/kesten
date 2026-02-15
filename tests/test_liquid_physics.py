@@ -39,7 +39,7 @@ class TestLiquidPhysics(unittest.TestCase):
 
     def test_unimplemented_region_raises(self) -> None:
         with self.assertRaises(NotImplementedError):
-            run_region_physics("liquid_vapor")
+            run_region_physics("unknown_region")
 
 
 if __name__ == "__main__":

@@ -14,6 +14,8 @@ Current CLI path:
 - `python app/run_solver.py --mode regress --region liquid --source physics`
 - `python app/run_solver.py --mode regress --region vapor --source baseline`
 - `python app/run_solver.py --mode regress --region vapor --source physics`
+- `python app/run_solver.py --mode regress --region liquid_vapor --source baseline`
+- `python app/run_solver.py --mode regress --region liquid_vapor --source physics`
 
 ## Failure logging requirements
 - Test/case identifier
