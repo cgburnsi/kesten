@@ -78,6 +78,7 @@ python app/run_solver.py --mode physics --region vapor --plot-output artifacts/p
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot-output artifacts/plots/temp_vs_bed_physics.png
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot-compare --plot-output artifacts/plots/temp_vs_bed_compare.png
+python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-bed-vapor-model fortran_inspired --plot-output artifacts/plots/temp_vs_bed_fortran_inspired.png
 
 # Use your reference curve file directly (model/reference/both)
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-curve-source reference --plot-output artifacts/plots/temp_vs_bed_reference.png
@@ -85,7 +86,7 @@ python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-c
 ```
 
 Note: `--plot-temp-bed` now uses a dedicated full-bed equation integration model for `physics` source, rather than stitching sparse region outputs.
-WARNING: current `--mode physics` outputs are experimental equation-model results with simplifying assumptions and are not yet fully validated.
+WARNING: current `--mode physics` outputs are experimental equation-model results with simplifying assumptions and are not yet fully validated. Use `--temp-bed-vapor-model fortran_inspired` to run the new coupled vapor-balance prototype.
 
 ## Run regression gate
 ```sh
