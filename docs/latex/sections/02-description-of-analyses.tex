@@ -29,7 +29,7 @@
 	\begin{equation}
 		2N_{2}H_{4} \rightarrow 2NH_{3}+N_{2}+H_{2}
 	\end{equation}
-	It should be noted that this is the overall reaction scheme determined experimentally for both homogeneous decomposition of hydrazine (Refs. 3, 4, 5) and low pressure heterogeneous decomposition of hydrazine on platinum surfaces (Ref. 6).\footnote{It is more commonly assumed, without benefit of experimental evidence, that the decomposition reaction is $3 N_{2}H_{4} \rightarrow 4 NH_{3}+N_{2}$, followed by dissociation of one of the four ammonia molecules to nitrogen and hydrogen.
+	It should be noted that this is the overall reaction scheme determined experimentally for both homogeneous decomposition of hydrazine (\cite{ref3_hydrazine_homogeneous_1,ref4_hydrazine_homogeneous_2,ref5_hydrazine_homogeneous_3}) and low pressure heterogeneous decomposition of hydrazine on platinum surfaces (\cite{ref6_hydrazine_pt_heterogeneous}).\footnote{It is more commonly assumed, without benefit of experimental evidence, that the decomposition reaction is $3 N_{2}H_{4} \rightarrow 4 NH_{3}+N_{2}$, followed by dissociation of one of the four ammonia molecules to nitrogen and hydrogen.
 		This two-step process leads to the same overall reaction cited above but assumes that a minimum of 25 percent of the ammonia produced by hydrazine decomposition also decomposes.
 		The fractional ammonia dissociation, f, calculated assuming the validity of the two-step process is related by the fractional ammonia dissociation calculated in the present report by
 		$$ (f)_{\text{two-step process}} = \frac{3}{4} (f)_{\text{present report}} + \frac{1}{4} $$
@@ -63,14 +63,14 @@
 			& \left. + \frac{3A_{p}}{2}\left(k_{c}[c_{i}-(C_{p})_{s}]\right)^{NH_{3}}\frac{M^{H_{2}}}{M^{NH_{3}}}-F\left(\frac{c_{i}}{\rho_{i}}\right)^{H_{2}}\right\}
 		\end{split}
 	\end{equation}
-	where the film coefficients, $h_{c}$ and $k_{c}$, may be estimated from (Ref. 7)
+	where the film coefficients, $h_{c}$ and $k_{c}$, may be estimated from (\cite{ref7_ergun_and_transfers})
 	\begin{equation}
 		h_{c}=0.74\left(\frac{G}{A_{p}\mu}\right)^{-0.41}(\overline{C}_{F}G)
 	\end{equation}
 	\begin{equation}
 		k_{c}^{j}=\left(\frac{0.616}{\rho_{i}}\right)\left(\frac{\mu}{\rho_{i}{D_{i}}^{J}}\right)^{-0.667}\left(\frac{G}{A_{p}\mu}\right)^{-0.41}
 	\end{equation}
-	The changes in reactant concentrations with axial stance are then given by (THIS EQUATION NEEDS VERIFICATION WITH OTHER DOCUMENTS.  IT'S NOT READABLE ON THE .PDF AND GEMINI DID THE BEST IT COULD.)
+	The changes in reactant concentrations with axial distance are then given by
 	\begin{equation}
 		\frac{dc_{i}^{j}}{dz}=\rho_{i}\frac{dw_{i}^{J}}{dz} + w_{i}^{j}\frac{d\rho_{i}}{dz}
 	\end{equation}
@@ -111,14 +111,14 @@
 	\begin{equation}
 		(Hk_{c}c_{i})^{N_{2}H_{4}}+H^{NH_{3}}D_{p}^{NH_{3}}\left(\frac{dc_{p}}{dx}\right)_{s}^{NH_{3}}=h_{c}[T_{i}-(T_{p})_{s}]
 	\end{equation}
-	Using Eqs. (16) and (17), Prater (Ref. 8) has pointed out that temperature and concentration are related quite simply by
+	Using Eqs. (16) and (17), Prater (\cite{ref8_prater_relation}) has pointed out that temperature and concentration are related quite simply by
 	\begin{equation}
 		T_{p}-(T_{p})_{s}=\frac{HD_{p}}{K_{p}}[(c_{p})_{s}-c_{p}]
 	\end{equation}
 	The use of this relationship enables the reaction rate, $r_{het}^{NH3}$, to be written as a function of concentration alone instead of concentration and temperature.
 	In this case, however, the reaction rate is a function of two parameters, $(T_{p})_{s}$ and $(c_{p})_{s}^{NH_{3}}$, which are yet to be determined.
 	Equation 16 can be solved for the concentration at any point in the porous particle in terms of the reaction rate, $r_{het}^{NH_{3}}$, and the interstitial concentration, $c_{i}^{NH_{3}}$.
-	The solution is derived in Refs. 2 and 9 as an implicit integral equation given by
+	The solution is derived in \cite{ref2_annual_report_2,ref9_integral_equation_derivation} as an implicit integral equation given by
 	\begin{equation}
 		\begin{split}
 			C_{p}(x) = c_{i}^{NH_{3}} - \left[\frac{1}{x}-\frac{ak_{c}^{NH_{3}}-D_{p}^{NH_{3}}}{a^{2}k_{c}^{NH_{3}}}\right]\int_{0}^{x}\xi^{2}\frac{r_{het}^{NH_{3}}(c_{p})}{D_{p}^{NH_{3}}} d\xi \\
@@ -137,7 +137,7 @@
 	Both of these options are presently in the computer program representing the steady-state model.
 	In the case in which both the liquid and vapor are taken to wet the particle surface, it is assumed that, at a given axial location, the fraction of the surface covered by vapor is equal to the weight-fraction of vapor present.
 	Decomposition rates, computed assuming pure liquid surface coverage and then pure vapor coverage, are weighted accordingly.
-	Fortuitously, for the system considered here, the liquid vapor region is so narrow that the choice of either of these options has negligible effect on the resulting temperature distributions (Ref. 1).
+	Fortuitously, for the system considered here, the liquid vapor region is so narrow that the choice of either of these options has negligible effect on the resulting temperature distributions (\cite{ref1_annual_report_1}).
 	
 	Finite difference methods have been used to program for digital computation the ordinary differential equations describing the changes in enthalpy and reactant concentrations in the interstitial phase.
 	No iteration is necessary to solve these equations numerically when the incremental axial distances are sufficiently small.
@@ -164,7 +164,7 @@
 	\begin{equation}
 		\frac{\partial h_{i}}{\partial z}=-\frac{1}{G}\left\{F(h_{i}-h_{F})+A_{p}h_{p}[T_{i}-(T_{p})_{s}]+H^{N_{2}H_{4}}r_{hom}^{N_{2}H_{4}}\delta + \frac{\partial q_{r}}{\partial r}\delta+\frac{q_{r}}{r}\delta+\frac{\partial T_{i}}{\partial r}\delta\sum_{j}N_{r}^{j}C_{F}^{J}\right\}\footnotemark
 	\end{equation}
-	\footnotetext{Equations of this type are presented in somewhat different form in Ref. 7. The last term on the right-hand side of the equation reflects the heat transferred by the radial diffusion of mass.}
+	\footnotetext{Equations of this type are presented in somewhat different form in \cite{ref7_ergun_and_transfers}. The last term on the right-hand side of the equation reflects the heat transferred by the radial diffusion of mass.}
 	% --- END FOOTNOTE FIX ---
 	
 	The changes in reactant weight fractions in the interstitial phase with axial distance at any radial location are related to the reactant concentrations in the interstitial phase and at the surface of the porous catalyst particles by
@@ -205,7 +205,7 @@
 	\begin{equation}
 		k_{c}^{J}=\left[\frac{0.616}{\rho i}\right]\left[\frac{\mu}{\rho_{i} D_{i}^{J}}\right]^{-0.667}\left[\frac{G}{A_p \mu}\right]^{-0.41}
 	\end{equation}
-	The eddy conductivity and diffusivity may be estimated from (Ref. 11)
+	The eddy conductivity and diffusivity may be estimated from (\cite{ref11_eddy_transport})
 	\begin{equation}
 		\lambda=\frac{a\overline{C}_{F}G}{5\delta} \quad \text{and} \quad \epsilon=\frac{aG}{5\rho_{i}}
 	\end{equation}
@@ -220,7 +220,7 @@
 	\begin{equation}
 		\frac{1}{\overline{M}}\frac{\partial\overline{M}}{\partial z}=-\frac{1}{\sum_{J}(w_{i}^{J}/M^{J})}\sum_{J}\frac{1}{M^{J}}\frac{\partial{w_{i}}^{J}}{\partial z}
 	\end{equation}
-	and the pressure drop may be estimated from the Ergun equation (Ref. 7) as
+	and the pressure drop may be estimated from the Ergun equation (\cite{ref7_ergun_and_transfers}) as
 	\begin{equation}
 		\frac{d p}{dz}=-\left(\frac{1-\delta}{\delta^{3}}\right)\left(1.75+\frac{150(1-\delta)}{2 a G/\mu}\right)\left(\frac{G^{2}}{2 a \rho_{i}g_{c}}\right)
 	\end{equation}

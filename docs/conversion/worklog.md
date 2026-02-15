@@ -18,6 +18,7 @@ Track section-by-section conversion status and review notes.
 | Discussion of One- and Two-Dimensional Steady-State Computer Programs | `docs/conversion/sections/03-discussion-of-programs.md` | reviewed | agent | 2026-02-15 | Fidelity annex added with full source-faithful table/listing blocks; milestone-1 QA now passes. |
 | Description of Subroutines | `docs/conversion/sections/04-description-of-subroutines.md` | reviewed | agent | 2026-02-15 | Fidelity annex added with full source-faithful figure/flowchart/listing blocks; milestone-1 QA now passes. |
 | Canonical LaTeX structure | `docs/latex/kesten_1968.tex` + `docs/latex/sections/*.tex` | reviewed | agent | 2026-02-15 | Split monolithic LaTeX into major-section include files without content rewrites. |
+| Citation + bibliography wiring | `docs/latex/sections/*.tex` + `docs/latex/references.bib` | reviewed | agent | 2026-02-15 | Replaced inline Ref. labels with `\cite{...}` keys and enabled bibliography build in canonical LaTeX. |
 
 ## Blockers
 - None currently.
@@ -36,3 +37,5 @@ Track section-by-section conversion status and review notes.
 - Recorded section-by-section QA outcomes in `docs/conversion/qa_results.md`; sections 3 and 4 remain converted due open completeness checks for omitted blocks.
 - Added fidelity annexes to sections 3 and 4, closing previously open completeness checks and upgrading both to reviewed.
 - Modularized `docs/latex/kesten_1968.tex` into `docs/latex/sections/00`-`06` include files to support milestone-2 LaTeX workflow.
+- Replaced legacy `Ref. n` text in canonical LaTeX with BibTeX citations and added bibliography commands to the master document.
+- Completed a full host `latexmk` build after citation wiring; PDF generated successfully with known non-blocking formatting warnings tracked in `docs/conversion/known-formatting-deltas.md`.

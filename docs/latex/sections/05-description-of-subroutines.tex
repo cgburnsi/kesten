@@ -64,7 +64,7 @@
 	\end{description}
 	
 	\subsection*{SGRAD (Fig. 1-8)}
-	The purpose of subroutine SGRAD is to solve the implicit integral equations describing reactant concentration and temperature profiles in the porous catalyst particles and to calculate the slope of the reactant concentration gradient at the surface of the catalyst particles. This routine is used for calculations in the vapor region of the reactor only. In the hydrazine catalytic reactor system, ammonia concentration profiles are calculated but the subroutine is very general and can be used for many other reactants. The key equation to be solved is an implicit integral equation of the form (Refs. 2 and 9):
+	The purpose of subroutine SGRAD is to solve the implicit integral equations describing reactant concentration and temperature profiles in the porous catalyst particles and to calculate the slope of the reactant concentration gradient at the surface of the catalyst particles. This routine is used for calculations in the vapor region of the reactor only. In the hydrazine catalytic reactor system, ammonia concentration profiles are calculated but the subroutine is very general and can be used for many other reactants. The key equation to be solved is an implicit integral equation of the form (\cite{ref2_annual_report_2,ref9_integral_equation_derivation}):
 	
 	\begin{equation} \label{eq:I-1}
 		\begin{split}
@@ -126,7 +126,7 @@
 		\begin{equation} \label{eq:I-2}
 			\left[\frac{dC_{p}^{NH_{3}}}{dx}\right]_{x=a} = \frac{k_{c}^{NH_{3}}}{D_{p}^{NH_{3}}}\left[c_{i}-(c_{p})_{s}\right]^{NH_{3}}
 		\end{equation}
-		where $k_{c}^{NH_{3}}$ is calculated from an equation given in Ref. 1 and $D_{p}^{NH_{3}}$ is calculated from Eq. (\ref{eq:I-3}).
+		where $k_{c}^{NH_{3}}$ is calculated from an equation given in \cite{ref1_annual_report_1} and $D_{p}^{NH_{3}}$ is calculated from Eq. (\ref{eq:I-3}).
 		\begin{equation} \label{eq:I-3}
 			D_{p}^{NH_{3}} = D_{0}^{NH_{3}}\left\{\left(\frac{(T_{p})_{s}}{492}\right)^{1.823} \cdot \left(\frac{14.7}{P}\right) \cdot \left[1-e^{-0.0672(P/14.7)(492/(T_p)_{s})}\right]\right\}
 		\end{equation}
@@ -135,7 +135,7 @@
 		\begin{equation} \label{eq:I-4}
 			(T_{p})_{s} = T_{i} - \frac{1}{h_{c}}\left[(H \cdot k_{c} \cdot c_{i})^{N_{2}H_{4}} + (H \cdot D_{p} \cdot [dc_{p}/dx]_{x=a})^{NH_{3}}\right]
 		\end{equation}
-		where $T_{i}$ and $c_{i}^{N_{2}H_{4}}$ are input to the subroutine, $H^{N_{2}H_{4}}$ and $H^{NH_{3}}$ are taken from tables in the computer program, and $h_{c}$ and $k_{c}^{N_{2}H_{4}}$ are calculated according to the equations in Ref. 1.
+		where $T_{i}$ and $c_{i}^{N_{2}H_{4}}$ are input to the subroutine, $H^{N_{2}H_{4}}$ and $H^{NH_{3}}$ are taken from tables in the computer program, and $h_{c}$ and $k_{c}^{N_{2}H_{4}}$ are calculated according to the equations in \cite{ref1_annual_report_1}.
 		
 		\item Using the point $[a, (c_{p})_{s}^{NH_{3}}]$ and the slope $[dc_{p}^{NH_{3}}/dx]_{x=a}$, a line is established and extrapolated to the $c_{p}^{NH_{3}} = 0$ axis, intersecting the line at $x_{0}$ (as in Fig. I-9).
 		

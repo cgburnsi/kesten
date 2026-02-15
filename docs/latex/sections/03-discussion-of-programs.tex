@@ -26,10 +26,10 @@
 		
 		\item The fourth card contains the eight constants \textbf{ZO}, \textbf{GO}, \textbf{FC}, \textbf{ALPHA3}, \textbf{HF}, \textbf{R}, \textbf{WM4}, and \textbf{WM3}.
 		\begin{itemize}
-			\item \textbf{ZO} is the axial distance to the end of a buried injector in ft. (Ref. 1).
+			\item \textbf{ZO} is the axial distance to the end of a buried injector in ft. (\cite{ref1_annual_report_1}).
 			\item \textbf{GO} is the inlet mass flow rate in $lb/ft^{2}-sec$. It must be greater than zero.
-			\item \textbf{FC} is the rate of feed of hydrazine from buried injectors (Ref. 1) into the system in $lb/ft^{3}$-sec.
-			\item \textbf{ALPHA3} is the preexponential factor in the rate equation for the thermal decomposition of hydrazine (See Ref. 1).
+			\item \textbf{FC} is the rate of feed of hydrazine from buried injectors (\cite{ref1_annual_report_1}) into the system in $lb/ft^{3}$-sec.
+			\item \textbf{ALPHA3} is the preexponential factor in the rate equation for the thermal decomposition of hydrazine (See \cite{ref1_annual_report_1}).
 			It equals $2.14 \times 10^{10} sec^{-1}$.
 			\item \textbf{HF} is the enthalpy of liquid hydrazine entering the bed in $Btu/lb$.
 			\item \textbf{R} is a gas constant. It equals 10.73 $(psia-ft^{3})/(lb \text{ mole-deg } R)$.
@@ -41,9 +41,9 @@
 		\begin{itemize}
 			\item \textbf{WM2} is the molecular weight of nitrogen. It equals 28.016 $lb/lb$ mole.
 			\item \textbf{WM1} is the molecular weight of hydrogen. It equals $2.016~lb/lb$ mole.
-			\item \textbf{ALPHAL} is the preexponential factor in the rate equation for the catalytic decomposition of hydrazine (See Ref. 1).
+			\item \textbf{ALPHAL} is the preexponential factor in the rate equation for the catalytic decomposition of hydrazine (See \cite{ref1_annual_report_1}).
 			For the Shell 405 catalyst it equals $10^{10} sec^{-1}$.
-			\item \textbf{ALPHA2} is the preexponential factor in the rate equation for the catalytic decomposition of ammonia (See Ref. 1).
+			\item \textbf{ALPHA2} is the preexponential factor in the rate equation for the catalytic decomposition of ammonia (See \cite{ref1_annual_report_1}).
 			For the Shell 405 catalyst it equals $10^{11}(lb/ft^{3})^{0.5}(sec)^{-1}$. (Note: the exponent 1.b in the original file was 0.5 in the PDF)
 			\item \textbf{AGM} is the activation energy for the catalytic decomposition of hydrazine, divided by the gas constant.
 			For the Shell 405 catalyst it equals 2500 deg R.
@@ -524,7 +524,7 @@ For each run there will be only one card number one. Cards two through twenty-on
 	
 	\item The third card contains the indicators \textbf{NRINGS} and \textbf{NOFZ}. \textbf{NRINGS} indicates the number of evenly spaced radial stations at which calculations are to be made where radial station number one is that one nearest the center of the reactor and radial station number (NRINGS) is that station nearest the reactor wall. For typical runs, \textbf{NRINGS} $= 10$ was found adequate to insure good results. Increasing this number would allow more detailed radial analysis, but it would also increase computer run time. \textbf{NOFZ} is the number of axial stations (Z's) to be used in the three tables input on cards 10 through 21.
 	
-	\item Cards four contain the values of \textbf{F(I)}, (the rates of feed of hydrazine from buried injectors (Ref. 1) into the system in $lb/ft^{3}-sec$). One value of F for each radial station (total number of radial stations = NRINGS) should be input. Ten numbers are allowed to a card. For the suggested NRINGS of 10, there would be one card with ten values of F.
+	\item Cards four contain the values of \textbf{F(I)}, (the rates of feed of hydrazine from buried injectors (\cite{ref1_annual_report_1}) into the system in $lb/ft^{3}-sec$). One value of F for each radial station (total number of radial stations = NRINGS) should be input. Ten numbers are allowed to a card. For the suggested NRINGS of 10, there would be one card with ten values of F.
 	
 	\item Cards five contain the values of \textbf{GO(I)}, (the inlet mass flow rates in $lb/ft^{2}$-sec) for each radial station. Ten numbers are allowed to a card. For the suggested NRINGS of 10, there would be one card with ten values of GO. All values of GO must be greater than zero.
 	
@@ -707,4 +707,3 @@ For each run there will be only one card number one. Cards two through twenty-on
 	
 	
 	
-
