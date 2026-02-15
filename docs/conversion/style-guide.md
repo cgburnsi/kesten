@@ -30,6 +30,7 @@ Define formatting conventions used across conversion outputs to keep Markdown an
 ## Citation/reference conventions
 - Markdown: use numeric bracket citations (for example, `[1]`, `[2]`) and keep a `## References` section at the end of each converted document/chapter.
 - LaTeX: use BibTeX with a dedicated `.bib` file and standard `\cite{key}` commands.
+- LaTeX bibliography style default: `plain` (may be revised later if needed).
 - Keep citation keys stable and human-readable (for example, `kesten1968`, `fortran-main`).
 - Ensure Markdown reference numbering and LaTeX bibliography entries point to the same source records.
 

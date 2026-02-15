@@ -18,6 +18,11 @@ Build a small, correct, legible, modular, Python library that implements the ste
 - During milestone 2, optimize for faithful structure/content parity with the original source, with LaTeX as canonical output for publishable PDFs.
 
 ## Document conversion contract
+### Global conversion defaults
+- Convert in reading order from abstract to end of document.
+- Use major-section granularity by default.
+- When conflicts exist, prioritize `docs/reference/Kesten_1968_original.pdf` and `docs/fortran/*.f` over derived/converted artifacts.
+
 ### Milestone 1 (quick readable conversion)
 - Goal: human-readable Markdown that preserves technical meaning.
 - Required preservation:
@@ -40,6 +45,7 @@ Build a small, correct, legible, modular, Python library that implements the ste
   - references/footnotes/cross-references traceable and complete
   - Fortran code blocks aligned with original structure and comments
 - Any ambiguity in source text should be called out explicitly in notes rather than silently normalized.
+- Milestone-1 exit gate: no unresolved critical ambiguities in source interpretation.
 
 ## Numeric tolerance policy
 - Use combined threshold: `abs(err) <= max(abs_tol, rel_tol * max(1.0, abs(reference)))`.

@@ -9,6 +9,11 @@ Define how source materials are converted into both Markdown and LaTeX during mi
 - `docs/latex/kesten_1968.tex`
 - `docs/fortran/*.f`
 
+## Source precedence (when conflicts exist)
+1. Primary: `docs/reference/Kesten_1968_original.pdf` and `docs/fortran/*.f`
+2. Secondary: `docs/reference/Kesten_1968_Latex_Conversion.pdf` and `docs/latex/kesten_1968.tex`
+- If primary and secondary sources disagree, preserve the primary reading and add a note describing the conflict.
+
 ## Output policy
 - Maintain both Markdown and LaTeX outputs.
 - Milestone 1 canonical output: Markdown.
@@ -40,7 +45,7 @@ Define how source materials are converted into both Markdown and LaTeX during mi
 - Document any ambiguity explicitly in a "Conversion Notes" subsection.
 
 ## Conversion process
-1. Select a small source section.
+1. Convert in reading order from abstract through end of document.
 2. Convert it according to current milestone rules.
 3. Update LaTeX (required in milestone 2; optional in milestone 1).
 4. Run QA checklist (`docs/conversion/qa_checklist.md`).
@@ -57,6 +62,11 @@ Define how source materials are converted into both Markdown and LaTeX during mi
 - Use zero-padded section numbers where source numbering exists.
 - Keep slugs lowercase with hyphens.
 - Suggested LaTeX section files: `docs/latex/sections/<NN>-<slug>.tex`.
+- Conversion granularity: major sections by default.
+
+## Fortran transcription policy
+- First attempt: preserve original fixed-format layout, labels, continuation style, and comments as closely as possible.
+- Fallback: if source quality prevents faithful transcription, use logic-equivalent formatting and record what was normalized in notes.
 
 ## Out of scope for conversion
 - Numerical reinterpretation or model changes.
