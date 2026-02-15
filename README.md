@@ -48,6 +48,11 @@ python -m unittest discover -s tests -v
 python examples/ex01_minimal_solver.py
 ```
 
+## Run baseline regression example
+```sh
+python examples/ex02_baseline_regression.py
+```
+
 ## Build LaTeX PDF
 ```sh
 tools/build_pdf.sh

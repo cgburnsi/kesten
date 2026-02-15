@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Dict, List
 
+from .golden_data import load_region_rows
+
 
 @dataclass(frozen=True)
 class SolverConfig:
@@ -39,4 +41,19 @@ def run_solver(initial_value: float, target_value: float, config: SolverConfig |
         "iterations": cfg.max_iterations,
         "value": value,
         "residual_history": tuple(residual_history),
+    }
+
+
+def run_region_baseline(region: str) -> Dict[str, object]:
+    """Return deterministic baseline rows for one region.
+
+    This baseline intentionally replays parsed golden rows to establish the
+    regression harness before full physics reconstruction.
+    """
+
+    rows = load_region_rows(region)
+    return {
+        "region": region,
+        "mode": "golden_replay_baseline",
+        "rows": rows,
     }

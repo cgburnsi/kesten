@@ -11,4 +11,5 @@ Verify that the implemented numerical loop is deterministic, stable, and aligned
 
 ## Initial scope
 - Baseline deterministic solver loop checks (`tests/test_solver.py`).
-- Future tasks add file-based regression tests using `docs/verification/*_output.txt` reference data.
+- File-based regression harness checks for liquid, vapor, and liquid-vapor reference outputs (`tests/test_regression_baseline.py`).
+- Next stage replaces golden-replay baseline mode with reconstructed 1D physics while preserving the same regression gates.

@@ -6,10 +6,10 @@ Track required tests by milestone, region, and scope.
 ## Matrix
 | Milestone | Component | Test Type | Reference Data | Status | Notes |
 |---|---|---|---|---|---|
-| 3 | solver1d convergence loop | unit | n/a | planned | |
-| 3 | solver1d liquid region | regression | `docs/verification/liquid_region_kesten_output.txt` | planned | |
-| 3 | solver1d vapor region | regression | `docs/verification/Vapor Region Correct Output.txt` | planned | |
-| 3 | solver1d liquid-vapor region | regression | `docs/verification/LV_region_Kesten_Output.txt` | planned | |
+| 3 | solver1d convergence loop | unit | n/a | implemented | Covered by `tests/test_solver.py`. |
+| 3 | solver1d liquid region | regression | `docs/verification/liquid_region_kesten_output.txt` | implemented | Baseline harness compares deterministic golden-replay output against liquid reference fields. |
+| 3 | solver1d vapor region | regression | `docs/verification/Vapor Region Correct Output.txt` | implemented | Baseline harness compares deterministic golden-replay output against vapor reference fields. |
+| 3 | solver1d liquid-vapor region | regression | `docs/verification/LV_region_Kesten_Output.txt` | implemented | Baseline harness compares deterministic golden-replay output against liquid-vapor reference fields. |
 | 4 | solver2d stepping | unit | n/a | planned | |
 | 4 | solver2d reference case(s) | regression | TODO | planned | |
 
