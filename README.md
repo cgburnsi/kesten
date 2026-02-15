@@ -69,6 +69,10 @@ python app/run_solver.py --mode physics --region liquid --plot
 # Save PNG
 python app/run_solver.py --mode physics --region liquid --plot-output artifacts/plots/liquid_physics.png
 python app/run_solver.py --mode iterate --initial 0 --target 1 --max-iterations 50 --plot-output artifacts/plots/iterate_residual.png
+
+# Compare physics vs baseline in one plot (especially useful for vapor single-point case)
+python app/run_solver.py --mode physics --region vapor --plot --plot-compare
+python app/run_solver.py --mode physics --region vapor --plot-output artifacts/plots/vapor_compare.png --plot-compare
 ```
 
 ## Run regression gate

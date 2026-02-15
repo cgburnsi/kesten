@@ -56,11 +56,24 @@ def parse_args() -> argparse.Namespace:
         default="",
         help="Optional PNG path to save plots (e.g., artifacts/plots/liquid_physics.png)",
     )
+    parser.add_argument(
+        "--plot-compare",
+        action="store_true",
+        help="When plotting baseline/physics, overlay the opposite source for comparison",
+    )
     return parser.parse_args()
 
 
-def _plot_region_rows(rows: List[Dict[str, float]], region: str, mode: str, output_path: str = "") -> None:
+def _plot_region_rows(
+    rows: List[Dict[str, float]],
+    region: str,
+    mode: str,
+    output_path: str = "",
+    compare_rows: List[Dict[str, float]] | None = None,
+    compare_label: str = "",
+) -> None:
     import matplotlib.pyplot as plt
+    import numpy as np
 
     if not rows:
         return
@@ -68,6 +81,58 @@ def _plot_region_rows(rows: List[Dict[str, float]], region: str, mode: str, outp
     x_values = [row.get("Z", float(i)) for i, row in enumerate(rows)]
     x_label = "Z" if "Z" in rows[0] else "Row Index"
     y_fields = [field for field in rows[0].keys() if field != "Z"]
+    compare_enabled = bool(compare_rows) and len(compare_rows or []) == len(rows)
+
+    if len(rows) == 1:
+        field_positions = np.arange(len(y_fields))
+        primary_values = np.array([rows[0][field] for field in y_fields], dtype=float)
+
+        if compare_enabled:
+            fig, axes = plt.subplots(2, 1, figsize=(10, 8))
+            compare_values = np.array([compare_rows[0][field] for field in y_fields], dtype=float)
+            width = 0.38
+            axes[0].bar(field_positions - width / 2, primary_values, width=width, label=mode)
+            axes[0].bar(field_positions + width / 2, compare_values, width=width, label=compare_label)
+            axes[0].set_yscale("symlog", linthresh=1e-6)
+            axes[0].legend()
+            axes[0].grid(True, axis="y", alpha=0.3)
+            axes[0].set_title(f"Kesten {region} single-point value comparison")
+
+            pct_diff = np.zeros_like(primary_values)
+            for i, (value, ref) in enumerate(zip(primary_values, compare_values)):
+                if abs(ref) <= 1e-12:
+                    pct_diff[i] = 0.0 if abs(value) <= 1e-12 else np.nan
+                else:
+                    pct_diff[i] = 100.0 * (value - ref) / ref
+
+            axes[1].bar(field_positions, pct_diff)
+            axes[1].axhline(0.0, color="black", linewidth=1.0)
+            axes[1].set_ylabel("% diff vs compare")
+            axes[1].grid(True, axis="y", alpha=0.3)
+            axes[1].set_title("Relative difference by field")
+            axes[-1].set_xticks(field_positions)
+            axes[-1].set_xticklabels(y_fields, rotation=20, ha="right")
+            fig.tight_layout()
+        else:
+            fig, axis = plt.subplots(1, 1, figsize=(10, 4))
+            axis.bar(field_positions, primary_values)
+            axis.set_yscale("symlog", linthresh=1e-6)
+            axis.set_title(f"Kesten {region} single-point field values ({mode})")
+            axis.grid(True, axis="y", alpha=0.3)
+            axis.set_xticks(field_positions)
+            axis.set_xticklabels(y_fields, rotation=20, ha="right")
+            fig.tight_layout()
+
+        if output_path:
+            path = Path(output_path)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            fig.savefig(path, dpi=150)
+            print(f"Saved plot: {path}")
+            plt.close(fig)
+            return
+
+        plt.show()
+        return
 
     fig, axes = plt.subplots(len(y_fields), 1, figsize=(8, max(3, 2.6 * len(y_fields))), sharex=True)
     if hasattr(axes, "plot"):
@@ -77,6 +142,16 @@ def _plot_region_rows(rows: List[Dict[str, float]], region: str, mode: str, outp
 
     for axis, field in zip(axes, y_fields):
         axis.plot(x_values, [row[field] for row in rows], marker="o", linewidth=1.5)
+        if compare_enabled:
+            axis.plot(
+                x_values,
+                [row[field] for row in compare_rows],
+                linestyle="--",
+                linewidth=1.2,
+                alpha=0.8,
+                label=compare_label,
+            )
+            axis.legend(loc="best")
         axis.set_ylabel(field)
         axis.grid(True, alpha=0.3)
 
@@ -129,11 +204,18 @@ def main() -> None:
         baseline_result["row_count"] = len(baseline_result["rows"])
         print(json.dumps(baseline_result, indent=2))
         if args.plot or args.plot_output:
+            compare_rows = None
+            compare_label = ""
+            if args.plot_compare:
+                compare_rows = run_region_physics(args.region)["rows"]
+                compare_label = "physics"
             _plot_region_rows(
                 rows=baseline_result["rows"],
                 region=args.region,
                 mode="baseline",
                 output_path=args.plot_output,
+                compare_rows=compare_rows,
+                compare_label=compare_label,
             )
         return
     if args.mode == "physics":
@@ -141,11 +223,18 @@ def main() -> None:
         physics_result["row_count"] = len(physics_result["rows"])
         print(json.dumps(physics_result, indent=2))
         if args.plot or args.plot_output:
+            compare_rows = None
+            compare_label = ""
+            if args.plot_compare:
+                compare_rows = run_region_baseline(args.region)["rows"]
+                compare_label = "baseline"
             _plot_region_rows(
                 rows=physics_result["rows"],
                 region=args.region,
                 mode="physics",
                 output_path=args.plot_output,
+                compare_rows=compare_rows,
+                compare_label=compare_label,
             )
         return
     if args.mode == "regress":
