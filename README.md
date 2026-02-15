@@ -48,6 +48,12 @@ python -m unittest discover -s tests -v
 python examples/ex01_minimal_solver.py
 ```
 
+## Build LaTeX PDF
+```sh
+tools/build_pdf.sh
+```
+- Build details and options: `docs/latex/BUILD.md`
+
 ## Notes
 - Dependencies are intentionally restricted to Python stdlib + NumPy + Matplotlib.
 - Keep architectural decisions in `docs/design/decisions.md`.
