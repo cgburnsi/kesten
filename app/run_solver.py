@@ -14,6 +14,11 @@ if str(SRC_DIR) not in sys.path:
 from kesten import SolverConfig, run_region_baseline, run_region_physics, run_region_regression, run_solver
 from kesten.bed_temperature import load_reference_bed_temperature_curve, run_full_bed_temperature_model
 
+CALIBRATED_WARNING = (
+    "CALIBRATED APPROXIMATION: current 'physics' outputs are not yet a full first-principles "
+    "Kesten-equation solve."
+)
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run minimal Kesten steady-state solver loop.")
@@ -114,7 +119,7 @@ def _plot_region_rows(
             axes[0].set_yscale("symlog", linthresh=1e-6)
             axes[0].legend()
             axes[0].grid(True, axis="y", alpha=0.3)
-            axes[0].set_title(f"Kesten {region} single-point value comparison")
+            axes[0].set_title(f"Kesten {region} single-point value comparison (calibrated)")
 
             pct_diff = np.zeros_like(primary_values)
             for i, (value, ref) in enumerate(zip(primary_values, compare_values)):
@@ -135,7 +140,7 @@ def _plot_region_rows(
             fig, axis = plt.subplots(1, 1, figsize=(10, 4))
             axis.bar(field_positions, primary_values)
             axis.set_yscale("symlog", linthresh=1e-6)
-            axis.set_title(f"Kesten {region} single-point field values ({mode})")
+            axis.set_title(f"Kesten {region} single-point field values ({mode}, calibrated)")
             axis.grid(True, axis="y", alpha=0.3)
             axis.set_xticks(field_positions)
             axis.set_xticklabels(y_fields, rotation=20, ha="right")
@@ -174,7 +179,7 @@ def _plot_region_rows(
         axis.grid(True, alpha=0.3)
 
     axes[-1].set_xlabel(x_label)
-    fig.suptitle(f"Kesten {region} {mode} profile")
+    fig.suptitle(f"Kesten {region} {mode} profile (calibrated approximation)")
     fig.tight_layout()
 
     if output_path:
@@ -292,7 +297,7 @@ def _plot_temperature_vs_bed(
         axis.legend(loc="best")
     axis.set_xlabel("Catalyst bed length Z [ft]")
     axis.set_ylabel("Temperature [degR]")
-    axis.set_title("Temperature vs catalyst bed length")
+    axis.set_title("Temperature vs catalyst bed length (calibrated approximation)")
     axis.grid(True, alpha=0.3)
     fig.tight_layout()
 
@@ -348,7 +353,9 @@ def main() -> None:
     if args.mode == "physics":
         physics_result = run_region_physics(args.region)
         physics_result["row_count"] = len(physics_result["rows"])
+        physics_result["warning"] = CALIBRATED_WARNING
         print(json.dumps(physics_result, indent=2))
+        print(CALIBRATED_WARNING)
         if args.plot_temp_bed:
             compare_points = None
             compare_label = ""
@@ -387,7 +394,11 @@ def main() -> None:
             write_artifact=True,
             artifact_dir=args.artifact_dir,
         )
+        if args.source == "physics":
+            regression_result["warning"] = CALIBRATED_WARNING
         print(json.dumps(regression_result, indent=2))
+        if args.source == "physics":
+            print(CALIBRATED_WARNING)
         return
 
     config = SolverConfig(

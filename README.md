@@ -85,6 +85,7 @@ python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-c
 ```
 
 Note: `--plot-temp-bed` now uses a dedicated full-bed calibrated temperature model for `physics` source, rather than stitching sparse region outputs.
+WARNING: current `--mode physics` outputs are calibrated approximations, not yet a full first-principles Kesten-equation solve.
 
 ## Run regression gate
 ```sh
