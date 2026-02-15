@@ -15,8 +15,8 @@ Track section-by-section conversion status and review notes.
 | Abstract + Foreword + Summary | `docs/conversion/sections/00-front-matter.md` | reviewed | agent | 2026-02-15 | Initial milestone-1 conversion complete. |
 | Introduction | `docs/conversion/sections/01-introduction.md` | reviewed | agent | 2026-02-15 | References placeholders added for Ref. [1]-[2]. |
 | Description of Analyses | `docs/conversion/sections/02-description-of-analyses.md` | reviewed | agent | 2026-02-15 | Eq. (11) ambiguity resolved via direct PDF page-image verification; section now passes milestone-1 QA. |
-| Discussion of One- and Two-Dimensional Steady-State Computer Programs | `docs/conversion/sections/03-discussion-of-programs.md` | converted | agent | 2026-02-15 | Cleanup pass completed; detailed table/listing fidelity QA still needed before review sign-off. |
-| Description of Subroutines | `docs/conversion/sections/04-description-of-subroutines.md` | converted | agent | 2026-02-15 | Cleanup pass completed; detailed figure/listing fidelity QA still needed before review sign-off. |
+| Discussion of One- and Two-Dimensional Steady-State Computer Programs | `docs/conversion/sections/03-discussion-of-programs.md` | reviewed | agent | 2026-02-15 | Fidelity annex added with full source-faithful table/listing blocks; milestone-1 QA now passes. |
+| Description of Subroutines | `docs/conversion/sections/04-description-of-subroutines.md` | reviewed | agent | 2026-02-15 | Fidelity annex added with full source-faithful figure/flowchart/listing blocks; milestone-1 QA now passes. |
 
 ## Blockers
 - None currently.
@@ -33,3 +33,4 @@ Track section-by-section conversion status and review notes.
 - Completed QA pass for section 2 and upgraded status to reviewed.
 - Seeded `docs/latex/references.bib` with stable keys for references 1-11.
 - Recorded section-by-section QA outcomes in `docs/conversion/qa_results.md`; sections 3 and 4 remain converted due open completeness checks for omitted blocks.
+- Added fidelity annexes to sections 3 and 4, closing previously open completeness checks and upgrading both to reviewed.
