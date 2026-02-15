@@ -29,8 +29,14 @@ class EquationModelConfig:
     points: int = 320
     z_liquid_target: float = 7.37459e-4
     z_lv_target: float = 7.5082274e-4
-    t_end_target: float = 1905.3842
-    cp_vapor: float = 0.7332
+    # Reduced vapor-region kinetics tuned to match the observed
+    # rise/peak/decline trend from the 1968 one-dimensional profile.
+    vapor_activation: float = 13077.907651100442
+    vapor_depletion_rate: float = 11777.751350803257
+    vapor_heat_gain: float = 106169135.07324964
+    vapor_cooling_rate: float = 959.2850962194299
+    vapor_cooling_sink_temp: float = 1836.9793171757567
+    vapor_progress_initial: float = 1.1451448000335862
 
 
 def _arrhenius(alpha: float, e_over_r: float, temp: float) -> float:
@@ -74,10 +80,13 @@ def _solve_scale_for_target(
     steps: int,
 ) -> float:
     def terminal_error(scale: float) -> float:
-        def rhs(_z: float, y: float) -> float:
-            return scale * rate_fn(y)
-
-        _, ys = _integrate_region(z_start, z_end, y_start, rhs, steps)
+        _, ys = _integrate_region(
+            z_start,
+            z_end,
+            y_start,
+            lambda _z, y: scale * rate_fn(y),
+            steps,
+        )
         return ys[-1] - y_target
 
     lo = 1e-20
@@ -85,11 +94,9 @@ def _solve_scale_for_target(
     err_lo = terminal_error(lo)
     err_hi = terminal_error(hi)
 
-    while err_lo * err_hi > 0:
+    while err_lo * err_hi > 0 and hi < 1e20:
         hi *= 10.0
         err_hi = terminal_error(hi)
-        if hi > 1e20:
-            break
 
     for _ in range(80):
         mid = 0.5 * (lo + hi)
@@ -111,11 +118,10 @@ def run_canonical_case_equation_profile(
     """Integrate a canonical-case 1D profile using equation-based region ODEs.
 
     Region model:
-    - Liquid: dH/dz = K_liq * alpha1 * exp(-AGM/T(H))
-    - Liquid-vapor: dH/dz = K_lv * alpha1 * exp(-AGM/Tvap)
-    - Vapor: dH/dz = K_vap * (alpha3*exp(-CGM/T) - alpha2*exp(-BGM/T))
-
-    K coefficients are solved by matching canonical transition/end targets.
+    - Liquid: enthalpy-based heating from Arrhenius source.
+    - Liquid-vapor: isothermal phase-change bridge.
+    - Vapor: reduced kinetic-energy balance with reactant depletion and cooling
+      sink to allow the observed temperature peak and downstream decline.
     """
 
     c = constants or CanonicalCaseConstants()
@@ -138,30 +144,6 @@ def run_canonical_case_equation_profile(
         z_end=cfg.z_liquid_target,
         steps=liquid_steps,
     )
-
-    lv_rate = _arrhenius(c.alpha1, c.agm, c.tvap)
-    k_lv = (c.hv - c.hl) / (max(cfg.z_lv_target - cfg.z_liquid_target, 1e-12) * max(lv_rate, 1e-30))
-
-    def vapor_temp_from_h(h: float) -> float:
-        return c.tvap + (h - c.hv) / cfg.cp_vapor
-
-    vapor_rate = lambda h: max(
-        1e-20,
-        _arrhenius(c.alpha3, c.cgm, vapor_temp_from_h(h))
-        - _arrhenius(c.alpha2, c.bgm, vapor_temp_from_h(h)),
-    )
-
-    # Target end enthalpy implied by canonical vapor end temperature.
-    h_end_target = c.hv + cfg.cp_vapor * (cfg.t_end_target - c.tvap)
-    k_vap = _solve_scale_for_target(
-        rate_fn=vapor_rate,
-        y_start=c.hv,
-        y_target=h_end_target,
-        z_start=cfg.z_lv_target,
-        z_end=c.zend,
-        steps=vapor_steps,
-    )
-
     z_liq, h_liq = _integrate_region(
         0.0,
         cfg.z_liquid_target,
@@ -169,37 +151,65 @@ def run_canonical_case_equation_profile(
         lambda _z, h: k_liq * liquid_rate(h),
         liquid_steps,
     )
+
     z_lv, h_lv = _integrate_region(
         cfg.z_liquid_target,
         cfg.z_lv_target,
         c.hl,
-        lambda _z, _h: k_lv * lv_rate,
+        lambda _z, _h: (c.hv - c.hl) / max(cfg.z_lv_target - cfg.z_liquid_target, 1e-12),
         lv_steps,
     )
-    z_vap, h_vap = _integrate_region(
-        cfg.z_lv_target,
-        c.zend,
-        c.hv,
-        lambda _z, h: k_vap * vapor_rate(h),
-        vapor_steps,
-    )
+
+    # Vapor region: track temperature and a progress variable representing
+    # depletion of heat-releasing decomposition potential.
+    z_vap: List[float] = [cfg.z_lv_target]
+    t_vap: List[float] = [c.tvap]
+    y_vap: List[float] = [cfg.vapor_progress_initial]
+    dz_vap = (c.zend - cfg.z_lv_target) / max(vapor_steps - 1, 1)
+    z = cfg.z_lv_target
+    temp = c.tvap
+    progress = cfg.vapor_progress_initial
+
+    for _ in range(vapor_steps - 1):
+        reaction_driver = exp(-cfg.vapor_activation / max(temp, 1.0)) * progress
+        d_progress_dz = -cfg.vapor_depletion_rate * reaction_driver
+        d_temp_dz = (
+            cfg.vapor_heat_gain * reaction_driver
+            - cfg.vapor_cooling_rate * (temp - cfg.vapor_cooling_sink_temp)
+        )
+
+        progress = max(0.0, progress + dz_vap * d_progress_dz)
+        temp = temp + dz_vap * d_temp_dz
+        z = z + dz_vap
+
+        z_vap.append(z)
+        t_vap.append(temp)
+        y_vap.append(progress)
+
+    h_vap = [c.hv + c.cfl * (t - c.tvap) for t in t_vap]
 
     # Stitch without duplicate boundary nodes.
     z_all = z_liq + z_lv[1:] + z_vap[1:]
     h_all = h_liq + h_lv[1:] + h_vap[1:]
+    t_all: List[float] = []
+    for idx, h in enumerate(h_all):
+        if idx < len(z_liq):
+            t_all.append(liquid_temp_from_h(h))
+        elif idx < len(z_liq) + len(z_lv) - 1:
+            t_all.append(c.tvap)
+        else:
+            vap_i = idx - (len(z_liq) + len(z_lv) - 1) + 1
+            t_all.append(t_vap[vap_i])
 
     rows: List[Dict[str, float]] = []
-    for z, h in zip(z_all, h_all):
+    for z, h, temp in zip(z_all, h_all, t_all):
         if h < c.hl:
-            temp = liquid_temp_from_h(h)
             region = "liquid"
             wfv = 0.0
         elif h <= c.hv:
-            temp = c.tvap
             region = "liquid_vapor"
             wfv = (h - c.hl) / max(c.hv - c.hl, 1e-12)
         else:
-            temp = vapor_temp_from_h(h)
             region = "vapor"
             wfv = 1.0
 

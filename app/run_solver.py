@@ -15,8 +15,8 @@ from kesten import SolverConfig, run_region_baseline, run_region_physics, run_re
 from kesten.bed_temperature import load_reference_bed_temperature_curve, run_full_bed_temperature_model
 
 CALIBRATED_WARNING = (
-    "EXPERIMENTAL EQUATION MODEL: current 'physics' outputs use canonical-case equation integration "
-    "with simplifying assumptions and are not yet fully validated."
+    "EXPERIMENTAL EQUATION MODEL: current 'physics' outputs use a reduced kinetic-energy formulation "
+    "for full-bed temperature with simplifying assumptions and are not yet fully validated."
 )
 
 
@@ -179,7 +179,7 @@ def _plot_region_rows(
         axis.grid(True, alpha=0.3)
 
     axes[-1].set_xlabel(x_label)
-    fig.suptitle(f"Kesten {region} {mode} profile (experimental equation model)")
+    fig.suptitle(f"Kesten {region} {mode} profile (experimental reduced equation model)")
     fig.tight_layout()
 
     if output_path:
@@ -297,7 +297,7 @@ def _plot_temperature_vs_bed(
         axis.legend(loc="best")
     axis.set_xlabel("Catalyst bed length Z [ft]")
     axis.set_ylabel("Temperature [degR]")
-    axis.set_title("Temperature vs catalyst bed length (equation model, experimental)")
+    axis.set_title("Temperature vs catalyst bed length (reduced equation model, experimental)")
     axis.grid(True, alpha=0.3)
     fig.tight_layout()
 
