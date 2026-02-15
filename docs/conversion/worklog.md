@@ -17,6 +17,7 @@ Track section-by-section conversion status and review notes.
 | Description of Analyses | `docs/conversion/sections/02-description-of-analyses.md` | reviewed | agent | 2026-02-15 | Eq. (11) ambiguity resolved via direct PDF page-image verification; section now passes milestone-1 QA. |
 | Discussion of One- and Two-Dimensional Steady-State Computer Programs | `docs/conversion/sections/03-discussion-of-programs.md` | reviewed | agent | 2026-02-15 | Fidelity annex added with full source-faithful table/listing blocks; milestone-1 QA now passes. |
 | Description of Subroutines | `docs/conversion/sections/04-description-of-subroutines.md` | reviewed | agent | 2026-02-15 | Fidelity annex added with full source-faithful figure/flowchart/listing blocks; milestone-1 QA now passes. |
+| Canonical LaTeX structure | `docs/latex/kesten_1968.tex` + `docs/latex/sections/*.tex` | reviewed | agent | 2026-02-15 | Split monolithic LaTeX into major-section include files without content rewrites. |
 
 ## Blockers
 - None currently.
@@ -34,3 +35,4 @@ Track section-by-section conversion status and review notes.
 - Seeded `docs/latex/references.bib` with stable keys for references 1-11.
 - Recorded section-by-section QA outcomes in `docs/conversion/qa_results.md`; sections 3 and 4 remain converted due open completeness checks for omitted blocks.
 - Added fidelity annexes to sections 3 and 4, closing previously open completeness checks and upgrading both to reviewed.
+- Modularized `docs/latex/kesten_1968.tex` into `docs/latex/sections/00`-`06` include files to support milestone-2 LaTeX workflow.
