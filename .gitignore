@@ -1,0 +1,11 @@
+.spyproject/
+
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+.png
+.zip
+
+artifacts/
