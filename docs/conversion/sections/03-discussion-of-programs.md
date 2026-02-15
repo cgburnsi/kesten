@@ -99,102 +99,22 @@ The table is set up as follows:
 
 ### Input Format
 
-\begin{sidewaystable} 
-\centering
-\caption{One-Dimensional Steady-State Computer Program Input Format}
 
-\begin{tabular}{@{}lllllll@{}}
-\toprule
-CARD & NUMBER & FORMAT & USED & SYMBOL OR & SYMBOL USED & NOMENCLATURE \\
-NUMBER & OF CARDS & FORTRAN & COLUMNS & DESCRIPTION & IN EQUATIONS & \\
-\midrule
-1. & 1 & I3* & 1-3 & NCASE & & No. of cases \\
-2. & 1 & 14A6 & 1-80 & Title & & \\
-3. & 1 & 2I2, I3* & 1-2 & OPTION & & Liq.
-Vap. Indicator \\
-& & & 3-4 & PRINT & & Print Indicator \\
-& & & 5-7 & NOFZ & & No. of Z's in Input Tables \\
-\multicolumn{7}{l}{...} \\
-\multicolumn{7}{p{0.9\textwidth}}{(\textit{Note: The OCR for this table is heavily corrupted. The data must be manually transcribed from the original document.})} \\
-\bottomrule
-\end{tabular}
-\end{sidewaystable}
-
-\begin{sidewaystable}
-\centering
-(NONE OF THIS DATA WAS VERIFIED.  WE JUST COPIED/PASTED FOR NOW.  COME BACK TO THIS AND CHECK THE DATA.)
-\caption{Figure 1: Coding of a Sample Data Case (Reconstructed from Fig. 2)} 
-
-\begin{verbatim}
-| Card   | 1.......10........20........30........40........50........60........70........80 |
-|--------|----------------------------------------------------------------------------------|
-| 1      |   1                                                                              |
-| 2      | **SAMPLE DATA CASE (1-DIM SS)** MIXED BED G0= 3.0 P = 100.                       |
-| 3      |  1 0 20                                                                          |
-| 4      | 0.          3.0         0.          .214 E+11  0.          10.73       32.048      17.032 |
-| 5      | 28.016      2.016       1.E+11      1.E+11      2500.       50000.      .40 E-4     33000. |
-| 6      | 530.        .7332       200.        40.         80.         .17 E-3     .95 E-4     100.   |
-| 7      | .25         1.          1.          -1.6                                           |
-| 8      |  .0          1.          20.         0.                                            |
-| 9a     | 0.          .0055       .0111       .0167       .0168       .0439       .0575       .0711       .0847       .0983 |
-| 9b     | .1119       .1255       .1391       .1527       .1663       .1799       .1935       .2207       .2343       .2500 |
-| 10a    | .001        .001        .001        .001        .0064       .0064       .0064       .0064       .0064       .0064 |
-| 10b    | .0064       .0064       .0064       .0064       .0064       .0064       .0064       .0064       .0064       .0064 |
-| 11     |  .0          1.          20.         0.                                            |
-| 12a    | 0.          .0055       .0111       .0167       .0168       .0439       .0575       .0711       .0847       .0983 |
-| 12b    | .1119       .1255       .1391       .1527       .1663       .1799       .1935       .2207       .2343       .2500 |
-| 13a    | 2100.       2100.       2100.       2100.       330.        330.        330.        330.        330.        330.  |
-| 13b    | 330.        330.        330.        330.        330.        330.        330.        330.        330.        330.  |
-| 14     |  .0          1.          20.         0.                                            |
-| 15a    | 0.          .0055       .0111       .0167       .0168       .0439       .0575       .0711       .0847       .0983 |
-| 15b    | .1119       .1255       .1391       .1527       .1663       .1799       .1935       .2207       .2343       .2500 |
-| 16a    | .34         .34         .34         .34         .34         .34         .34         .34         .34         .34   |
-| 16b    | .34         .34         .34         .34         .34         .34         .34         .34         .34         .34   |
-\end{verbatim}
-\end{sidewaystable}
+> [Table block omitted in milestone-1 markdown. See source: `docs/latex/kesten_1968.tex` section 3 for full formatting.]
 
 
-\begin{table}[ht]
-\centering
-\caption{Listing of Input Data Punch Cards: Sample Case (from Fig. 2)}
+> [Table block omitted in milestone-1 markdown. See source: `docs/latex/kesten_1968.tex` section 3 for full formatting.]
 
-\begin{tabular}{@{}ll@{}}
-\toprule
-**Card Number** & **Data / Values** \\
-\midrule
-Card 1 & \texttt{  1} \\
-Card 2 & \texttt{**SAMPLE DATA CASE (1-DIM SS)** MIXED BED G0= 3.0 P = 100.} \\
-Card 3 & \texttt{ 1 0 20} \\
-Card 4 & \texttt{0.          3.0         0.          .214 E+11  0.          10.73       32.048      17.032} \\
-Card 5 & \texttt{28.016      2.016       1.E+11      1.E+11      2500.       50000.      .40 E-4     33000.} \\
-Card 6 & \texttt{530.        .7332       200.        40.         80.         .17 E-3     .95 E-4     100.} \\
-Card 7 & \texttt{.25         1.          1.          -1.6} \\
-Card 8 & \texttt{ .0          1.          20.         0.} \\
-Card 9a & \texttt{0.          .0055       .0111       .0167       .0168       .0439       .0575       .0711       .0847       .0983} \\
-Card 9b & \texttt{.1119       .1255       .1391       .1527       .1663       .1799       .1935       .2207       .2343       .2500} \\
-Card 10a & \texttt{.001        .001        .001        .001        .0064       .0064       .0064       .0064       .0064       .0064} \\
-Card 10b & \texttt{.0064       .0064       .0064       .0064       .0064       .0064       .0064       .0064       .0064       .0064} \\
-Card 11 & \texttt{ .0          1.          20.         0.} \\
-Card 12a & \texttt{0.          .0055       .0111       .0167       .0168       .0439       .0575       .0711       .0847       .0983} \\
-Card 12b & \texttt{.1119       .1255       .1391       .1527       .1663       .1799       .1935       .2207       .2343       .2500} \\
-Card 13a & \texttt{2100.       2100.       2100.       2100.       330.        330.        330.        330.        330.        330.} \\
-Card 13b & \texttt{330.        330.        330.        330.        330.        330.        330.        330.        330.        330.} \\
-Card 14 & \texttt{ .0          1.          20.         0.} \\
-Card 15a & \texttt{0.          .0055       .0111       .0167       .0168       .0439       .0575       .0711       .0847       .0983} \\
-Card 15b & \texttt{.1119       .1255       .1391       .1527       .1663       .1799       .1935       .2207       .2343       .2500} \\
-Card 16a & \texttt{.34         .34         .34         .34         .34         .34         .34         .34         .34         .34} \\
-Card 16b & \texttt{.34         .34         .34         .34         .34         .34         .34         .34         .34         .34} \\
-\bottomrule
-\end{tabular}
-\end{table}
+
+> [Table block omitted in milestone-1 markdown. See source: `docs/latex/kesten_1968.tex` section 3 for full formatting.]
 
 
 ### Output Description
-Output from the one-dimensional steady-state program is entirely in printout form. Standard output, which is printed out when input option \texttt{PRINT = 0}, includes all printing normally done during execution of any representative data case, three messages which pertain to calculations which do not follow the normal pattern in a typical run, and one error message which is followed by program termination. Non-standard output is printed in addition to the standard output when \texttt{PRINT = 1}. This non-standard output includes additional calculated values and comments which pertain to intermediate calculations.
+Output from the one-dimensional steady-state program is entirely in printout form. Standard output, which is printed out when input option `PRINT = 0`, includes all printing normally done during execution of any representative data case, three messages which pertain to calculations which do not follow the normal pattern in a typical run, and one error message which is followed by program termination. Non-standard output is printed in addition to the standard output when `PRINT = 1`. This non-standard output includes additional calculated values and comments which pertain to intermediate calculations.
 
 The print statements associated with each routine in which output is generated are described below.
 
-\paragraph{Standard Output}
+### Standard Output
 - **MAIN program**
 - A complete listing of all program input including FORTRAN variable titles for all input variables.
 - Axial position, (Z), temperature, (TEMP), enthalpy, (H), and rate of change of enthalpy with axial distance, (DHDZ), for each axial position in the liquid region.
@@ -222,8 +142,7 @@ If subroutine SGRAD cannot calculate a "converged" value for CPS after 50 iterat
 If after four corrective attempts to approximate X0 the procedure still do not yield satisfactory results, this message along with all unacceptable values for X0 is printed and further calculations are stopped. An octal dump of core accompanies the program stop.
 
 
-
-\paragraph{Non-Standard Output}
+### Non-Standard Output
 - **Subroutine SLOPE**
 - "INITIAL CHOICE THROUGH ORIGIN IS TOO LARGE"
 
@@ -234,15 +153,7 @@ This message indicates that a satisfactory approximation to the radial depth of 
 - "INITIAL CHOICE THRU ORIGIN SEEMINGLY OK, BUT RESULTS ROTTEN AFTER 99 ITERATIONS --- SET X0 =.000001* A AND USE MORE REFINED TECHNIQUE"
 
 When calculating a concentration vs radial position profile within the catalyst particle, an initial guess at the profile is used assuming a linear profile from the center of the particle to the surface. It can happen that this appears to be a satisfactory first guess, but ultimately yields unsatisfactory results for the final "converged" values of CPA. In such instances the above message is printed and the iteration procedure is repeated using a new initial guess.
-- "ITERATION = XX \\
-\begin{tabular}{cccccccc}
-$X/A$ & CPA & $X/A$ & CPA & $X/A$ & CPA & $X/A$ & CPA \\
-XXXX & XXXX & XXXX & XXXX & XXXX & XXXX & XXXX & XXXX \\
-XXXX & XXXX & XXXX & XXXX & XXXX & XXXX & XXXX & XXXX \\
-: & : & : & : & : & : & : & : \\
-XXXX & XXXX & XXXX & XXXX & XXXX & XXXX & XXXX & XXXX \\
-\end{tabular} \\
-THE SLOPE CONVERGES TO XXXXXXX + xx"
+- "ITERATION = XX ... [concentration-profile tabular printout omitted for readability] ... THE SLOPE CONVERGES TO XXXXXXX + xx"
 
 When a converged value for the slope of the concentration profile curve at the catalyst particle surface has been calculated, the above "concentration profile" will be printed. The word "ITERATION" refers to the iteration count at the time of convergence. $X/A$ is the normalized distance from the center of the catalyst particle of radius A to the surface. CPA is the concentration of hydrazine within the particle at the corresponding normalized radial distance. The final message indicates the final converged value of the slope. This block will be printed for each axial station of the liquid region.
 - "THE SLOPE CONVERGES TO $.xxxxxx \pm xx$"
@@ -269,7 +180,7 @@ When calculating an ammonia concentration radial profile within a catalyst parti
 
 A sample listing of the output for a typical one-dimensional steady-state data case is shown in Figs. 3a through 3f.	
 
-\subsection*{Common Operational Problems}
+## Common Operational Problems
 Many different data cases have been run with the one-dimensional steady-state computer program. During these runs, most of the problems which have developed have been eliminated through program modification. However, two problems which may still occur are noted below, together with appropriate techniques for solving them.
 - "UNABLE TO FIND SUITABLE X0 AFTER FOUR TRIES OF 25 ITERATIONS EACH --- PROGRAM STOP FOLLOWS"
 
@@ -279,146 +190,11 @@ If a satisfactory value for X0 cannot be found after four attempts, this message
 When using a buried injector scheme it is possible to "flood" the region surrounding the injector tip with cold, liquid hydrazine. A sudden drop in axial temperatures at the liquid-vapor/vapor interface indicates that this has occurred, and in such cases the above message in printed and no further calculations are made. An appropriate solution to this problem would be to try a larger input value for GO and rerun the program with the revised input.
 
 
-\subsection*{Figures 3a-3f: Listing of Output for Sample Data Case}
+## Figures 3a-3f: Listing of Output for Sample Data Case
 
 
-\begin{longtable}{@{}l@{}} % Defines a one-column longtable
+> [Long table/sample listing omitted in milestone-1 markdown. See source: `docs/latex/kesten_1968.tex` section 3.]
 
-\caption{Listing of Output for Sample Data Case (Figs. 3a-3f)}  \\
-\toprule
-**Sample Data Output** \\
-\midrule
-\endfirsthead
-
-\multicolumn{1}{c}%
-{{\tablename\ \thetable{} -- continued from previous page}} \\
-\toprule
-**Sample Data Output** \\
-\midrule
-\endhead
-
-\bottomrule
-\multicolumn{1}{r}{{Continued on next page}} \\
-\endfoot
-
-\bottomrule
-\endlastfoot
-
-\texttt{**SAMPLE DATA CASE (1-DIM SS)** MIXED BED G0= 3.0 P = 100.} \\
-\texttt{000000} \\
-\texttt{INPUT CONSTANTS} \\
-\texttt{HL         HV         TF         TVAP       CFL        PRESSURE   KP         F          G0} \\
-\texttt{.212628+03 .715478+03 .530000+03 .820000+03 .733200-00 .100000+03 .400000-04 .000000    .300000+01} \\
-\texttt{R          ALPHA3     CGM        DIF3       DIF4       WM4        WM3        WM2        WM1        ZEND} \\
-\texttt{.107300+02 .214000+11 .330000+05 .170000-03 .950000-04 .320480+02 .170320+02 .280160+02 .201600+01 .250000+00} \\
-\texttt{AGM        BGM        ALPHA1     ALPHA2     N1         N2         N3         ENMX1      ENMX2      ENMX3} \\
-\texttt{.250000+04 .500000+05 .100000+12 .100000+11 .100000+01 .100000+01 -.160000+01 .200000+03 .400000+02 .800000+02} \\
-\texttt{000000} \\
-\texttt{ZO} \\
-\texttt{.000000} \\
-\texttt{Z VS A TABLE} \\
-\texttt{.000000    .100000+01 .200000+02 .000000} \\
-\texttt{.000000    .550000-02 .111000-01 .167000-01 .168000-01 .439000-01 .575000-01 .711000-01 .847000-01 .983000-01} \\
-\texttt{.111900+00 .125500+00 .139100+00 .152700+00 .166300+00 .179900+00 .193500+00 .207100+00 .220700+00 .234300+00} \\
-\texttt{.100000-02 .100000-02 .100000-02 .100000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02} \\
-\texttt{.640000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02 .640000-02} \\
-\texttt{Z VS AP TABLE} \\
-\texttt{.000000    .100000+01 .200000+02 .000000} \\
-\texttt{.000000    .550000-02 .111000-01 .167000-01 .168000-01 .439000-01 .575000-01 .711000-01 .847000-01 .983000-01} \\
-\texttt{.111900+00 .125500+00 .139100+00 .152700+00 .166300+00 .179900+00 .193500+00 .207100+00 .220700+00 .234300+00} \\
-\texttt{.210000+04 .210000+04 .210000+04 .210000+04 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03} \\
-\texttt{.330000+03 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03 .330000+03} \\
-\texttt{Z VS DELTA TABLE} \\
-\texttt{.000000    .100000+01 .200000+02 .000000} \\
-\texttt{.000000    .550000-02 .111000-01 .167000-01 .168000-01 .439000-01 .575000-01 .711000-01 .847000-01 .983000-01} \\
-\texttt{.111900+00 .125500+00 .139100+00 .152700+00 .166300+00 .179900+00 .193500+00 .207100+00 .220700+00 .234300+00} \\
-\texttt{.340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00} \\
-\texttt{.340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00 .340000-00} \\
-~\\ % Adds a little space
-\texttt{******************************* ENTERING LIQUID REGION *******************************} \\
-~\\
-\texttt{                   Z              TEMP              H              DHDZ} \\
-\texttt{.00000000      .530000+03      .000000        .377541+05} \\
-\texttt{.251216-03     .542936+03      .189619+02     .538926+05} \\
-\texttt{.484469-03     .555662+03      .379026+02     .945157+05} \\
-\texttt{.527298-03     .568781+03      .568781+02     .343787+06} \\
-\texttt{.593145-03     .581695+03      .757274+02     .221126+06} \\
-\texttt{.635941-03     .594602+03      .946115+02     .322530+06} \\
-\texttt{.665267-03     .607502+03      .113477+03     .467775+06} \\
-\texttt{.665477-03     .620396+03      .132323+03     .675305+06} \\
-\texttt{.699470-03     .633283+03      .151168+03     .962125+06} \\
-\texttt{.709286-03     .646164+03      .169992+03     .132107+07} \\
-\texttt{.716432-03     .659039+03      .188824+03     .183241+07} \\
-\texttt{.721580-03     .671907+03      .207641+03     .242181+07} \\
-\texttt{.725474-03     .684769+03      .226450+03     .316562+07} \\
-\texttt{.728452-03     .697625+03      .245250+03     .412827+07} \\
-\texttt{.730734-03     .710474+03      .264042+03     .577362+07} \\
-\texttt{.732365-03     .723316+03      .282827+03     .750974+07} \\
-\texttt{.733618-03     .736154+03      .301605+03     .935122+07} \\
-\texttt{.734627-03     .748989+03      .320377+03     .117621+08} \\
-\texttt{.735427-03     .761822+03      .339146+03     .151422+08} \\
-\texttt{.736046-03     .774653+03      .357912+03     .187859+08} \\
-\texttt{.736547-03     .787482+03      .376676+03     .225211+08} \\
-\texttt{.736964-03     .800310+03      .395438+03     .269846+08} \\
-\texttt{.737323-03     .813133+03      .414199+03     .342904+08} \\
-\texttt{.737459-03     .820000+03      .423306+03     .383323+08} \\
-~\\
-\texttt{*************************** ENTERING LIQUID VAPOR REGION ***************************} \\
-~\\
-\texttt{.73770-03     .82000+03      .25963+03      .093472-01} \\
-\texttt{.73895-03     .82000+03      .30663+03      .18594-00} \\
-\texttt{.74016-03     .82000+03      .35363+03      .28041-00} \\
-\texttt{.74138-03     .82000+03      .40064+03      .37389-00} \\
-\texttt{.74261-03     .82000+03      .44764+03      .46796-00} \\
-\texttt{.74384-03     .82000+03      .49464+03      .56083-00} \\
-\texttt{.74506-03     .82000+03      .54164+03      .65430-00} \\
-\texttt{.74629-03     .82000+03      .58865+03      .74777-00} \\
-\texttt{.74751-03     .82000+03      .63565+03      .84124-00} \\
-\texttt{.74874-03     .82000+03      .68265+03      .93472-00} \\
-\texttt{.75082-03     .82000+03      .71548+03      .10000+01} \\
-~\\
-\texttt{***************************** ENTERING VAPOR REGION *****************************} \\
-~\\
-\texttt{Z= .075082274-03 TEMP= .82000000+03 PRES= .10000000+03 H= .71547795+03} \\
-\texttt{C1= .31579918-02 C2= .43586062-01 C3= .53360037-01 C4= .10343207-00} \\
-\texttt{MFRAC1= .13782692-00 MFRAC2= .13782692-00 MFRAC3= .27565384-00 MFRAC4= .44869231-00 FRAC3D= -.00000000} \\
-~\\
-\texttt{Z= .090740574-03 TEMP= .86645369+03 PRES= .99981377+02 H= .73897909+03} \\
-\texttt{C1= .32506140-02 C2= .43334669-01 C3= .50454650-01 C4= .15041867-00} \\
-\texttt{MFRAC1= .14429730-00 MFRAC2= .14429730-00 MFRAC3= .27635187-00 MFRAC4= .42893217-00 FRAC3D= .21670607-01} \\
-~\\
-\texttt{Z= .10665796-02 TEMP= .91158767+03 PRES= .99960899+02 H= .76246590+03} \\
-\texttt{C1= .33173617-02 C2= .42790974-01 C3= .48003883-01 C4= .13356108-00} \\
-\texttt{MFRAC1= .16197901-00 MFRAC2= .15034878-00 MFRAC3= .27743711-00 MFRAC4= .41023511-00 FRAC3D= .40233626-01} \\
-~\\
-\texttt{Z= .12278735-02 TEMP= .95559712+03 PRES= .99938571+02 H= .78594348+03} \\
-\texttt{C1= .33603019-02 C2= .42236826-01 C3= .45931103-01 C4= .12162228+00} \\
-\texttt{MFRAC1= .17243814-00 MFRAC2= .15596628-00 MFRAC3= .27898882-00 MFRAC4= .39260677-00 FRAC3D= .55749761-01} \\
-~\\
-\texttt{... (Data continues) ...} \\
-~\\
-\texttt{Z= .17155202-00 TEMP= .19507243+04 PRES= .78863929+02 H= .14092872+04} \\
-\texttt{C1= .39661221-02 C2= .31522408-01 C3= .96198352-02 C4= .00000000} \\
-\texttt{MFRAC1= .53774555-00 MFRAC2= .30754914-00 MFRAC3= .15470531-00 MFRAC4= .00000000     FRAC3D= .59806513-00} \\
-~\\
-\texttt{Z= .24999999-00 TEMP= .19053842+04 PRES= .71680713+02 H= .13780029+04} \\
-\texttt{C1= .38096090-02 C2= .29667359-01 C3= .77733879-02 C4= .00000000} \\
-\texttt{MFRAC1= .55496938-00 MFRAC2= .31099591-00 MFRAC3= .13403673-00 MFRAC4= .00000000     FRAC3D= .64541664-00} \\
-~\\
-\texttt{Z'S FROM VAPOR REGION} \\
-\texttt{.7508227-03 .9074057-03 .1066580-02 .1227874-02 .1392110-02 .1559678-02 .1730142-02 .1905576-02 .2084807-02 .2269192-02} \\
-\texttt{.2459069-02 .2655209-02 .2858234-02 .3068889-02 .3288960-02 .3518443-02 .3755323-02 .4005866-02 .4269697-02 .4547898-02} \\
-\texttt{.4844697-02 .5157416-02 .5493968-02 .5856722-02 .6249363-02 .6676468-02 .7151910-02 .7680163-02 .8278725-02 .8971330-02} \\
-\texttt{.9737482-02 .1083580-01 .1225605-01 .1392110-01 .1465606-01 .1476369-01 .1487130-01 .1497891-01 .1508652-01 .1519400-01} \\
-\texttt{.1530174-01 .1540940-01 .1552457-01 .1659306-01 .1756156-01 .2046704-01 .2337252-01 .4080540-01 .6695473-01 .9310405-01} \\
-\texttt{.1194060-00 .1323280-00 .1715520-00 .1911640-00 .2107760-00 .2303880-00 .2500000-00} \\
-~\\
-\texttt{STEADY STATE VALUES FOR MBAR AND G AT END OF BED} \\
-\texttt{        MBAR= .12115+02     G= .30000+01} \\
-~\\
-\texttt{***** OPERATIONS COMPLETE *****} \\
-
-\end{longtable}
 
 	
 
@@ -461,12 +237,12 @@ For each run there will be only one card number one. Cards two through twenty-on
 - **DONH3** is the diffusion coefficient of ammonia in the gas phase at STP. It equals $0.17 \times 10^{-3} ft^{2}/sec$.
 - **CGM** is the activation energy for the thermal decomposition of hydrazine, divided by the gas constant. It equals 33,000 deg R.
 - **RADIUS** is the radius of the catalyst bed in feet.
-- Cards ten through thirteen contain **AVSZ(I)**, the bivariate interpolation table used to obtain the catalyst particle radius, $A(z,r)$.\footnote{This variable is not subscripted in the program. This notation is used to show that the variable is a function of both axial distance and radial distance and to clarify the way the table is set up.} These A values are obtained from subroutine UNBAR, an interpolation routine developed at the United Aircraft Research Laboratories, as functions of axial distance, Z, and radial distance, RAD. For this table there should be a total of (NOFZ) Z's, (NRINGS) RAD's and (NOFZ x NRINGS) A's. The table is set up as follows:
+- Cards ten through thirteen contain **AVSZ(I)**, the bivariate interpolation table used to obtain the catalyst particle radius, $A(z,r)$. These A values are obtained from subroutine UNBAR, an interpolation routine developed at the United Aircraft Research Laboratories, as functions of axial distance, Z, and radial distance, RAD. For this table there should be a total of (NOFZ) Z's, (NRINGS) RAD's and (NOFZ x NRINGS) A's. The table is set up as follows:
 - **CARD NO. 10**: This card contains the four table descriptors used by UNBAR. The first descriptor signifies the table number. For this program it equals 0.0. The second descriptor signifies the location in the array at which the table starts; the tables in this program are read in such that this number equals 1.0. The third descriptor for a bivariate table such as this one is the number of elements in the first set of independent variables in the table (in this case, the number of Z's). This number equals NOFZ. The fourth descriptor is the number of elements in the second set of independent variables in the table (in this case, the number of RAD's). This number equals NRINGS.
 - **CARD(S) NO. 11**: These cards contain the monatonically increasing Z values. Enough cards should be used to contain NOFZ values of Z at the rate of ten per card. For example, if $NOFZ = 12$, 12 values of Z should be input using 2 cards with ten values on the first card and the 2 remaining values on the second card.
 - **CARD(S) NO. 12**: These cards contain the monatonically increasing $RAD$'s. Enough cards should be used to contain NRINGS values of RAD at the rate of ten per card.
 - **CARD(S) NO. 13**: These cards contain the values for $A(z,r)$. The A values are input at each Z value for all RAD's (i.e., (NRINGS) values of A for each Z) at the rate of ten per card. (See examples in text).
-- Cards 14 through 17 contain **APVSZ(I)**, the bivariate interpolation table used to obtain the catalyst particle surface area, $AP(z,r)$.\footnote{This variable is not subscripted in the program. This notation is used to show that the variable is a function of both axial distance and radial distance and to clarify the way the table is set up.} These AP values are obtained from UNBAR as functions of axial distance, Z, and radial distance, RAD, as in the AVSZ table discussed above. For this table there should be a total of (NOFZ) Z's, (NRINGS) RAD's, and (NOFZ x NRINGS) AP's. The table is set up as follows:
+- Cards 14 through 17 contain **APVSZ(I)**, the bivariate interpolation table used to obtain the catalyst particle surface area, $AP(z,r)$. These AP values are obtained from UNBAR as functions of axial distance, Z, and radial distance, RAD, as in the AVSZ table discussed above. For this table there should be a total of (NOFZ) Z's, (NRINGS) RAD's, and (NOFZ x NRINGS) AP's. The table is set up as follows:
 - **CARD NO. 14**: This card is exactly the same as card 10.
 - **CARD(S) NO. 15**: These cards are exactly the same as cards 11.
 - **CARD(S) NO. 16**: These cards are exactly the same as cards 12.
@@ -478,209 +254,22 @@ For each run there will be only one card number one. Cards two through twenty-on
 - **CARD(S) NO. 21**: These cards contain the values for DELTA (z,r). These values are input at each Z value for all RAD's at the rate of ten values per card. (See examples in the discussion of the AVSZ table as the table setup is the same).
 
 
-**NOTE:** The values for the orders of the decomposition reactions (called EN1, EN2, and EN3 in the one-dimensional model) are included in the equations in the two-dimensional model and therefore are not input.	
+**NOTE:** The values for the orders of the decomposition reactions (called EN1, EN2, and EN3 in the one-dimensional model) are included in the equations in the two-dimensional model and therefore are not input.
+
+> [Long table/sample listing omitted in milestone-1 markdown. See source: `docs/latex/kesten_1968.tex` section 3.]
 
 
-\small 
-\begin{longtable}{@{}llll >{\raggedright\arraybackslash}p{0.25\textwidth} >{\raggedright\arraybackslash}p{0.15\textwidth} >{\raggedright\arraybackslash}p{0.35\textwidth}@{}}
-
-\caption{Two-Dimensional Computer Program: Input Format (Table II)}  \\
-\toprule
-CARD & NUMBER & FORMAT & USED & SYMBOL OR & SYMBOL USED & NOMENCLATURE \\
-NUMBER & OF CARDS & FORTRAN & COLUMNS & DESCRIPTION & IN EQUATIONS & \\
-\midrule
-\endfirsthead
-
-\multicolumn{7}{c}%
-{{\tablename\ \thetable{} -- continued from previous page}} \\
-\toprule
-CARD & NUMBER & FORMAT & USED & SYMBOL OR & SYMBOL USED & NOMENCLATURE \\
-NUMBER & OF CARDS & FORTRAN & COLUMNS & DESCRIPTION & IN EQUATIONS & \\
-\midrule
-\endhead
-
-\midrule
-\multicolumn{7}{r}{{Continued on next page}} \\
-\endfoot
-
-\bottomrule
-\multicolumn{7}{@{}p{0.9\textwidth}@{}}{% <--- Adjusted width here too
-*All I format numbers should be right adjusted. \par
-**Enough cards should be used to contain (NRINGS) values at the rate of ten per card. \par
-***Enough cards should be used to contain (NRINGS) values for each Z at the rate of ten per card (see detailed example in text).
-}
-\endlastfoot
-
-1 & 1 & I3* & 1-3 & NCASE & & Number of data cases \\
-2 & 1 & 14A6 & 1-80 & Title & & \\
-3 & 1 & 2I3* & 1-3 & NRINGS & & Number of radial stations \\
-& & & 4-6 & NOFZ & & Number of Z's in input tables \\
-4 & ** & 10E8.4 & 1-8, 9-16, etc. & F(I) & $F$ & Distributed Feed Rate \\
-5 & ** & 10E8.4 & 1-8, 9-16, etc. & GO(I) & $G_0$ & Inlet mass flow rate \\
-6 & ** & 10E8.4 & 1-8, 9-16, etc. & ZO(I) & $Z_0$ & Axial distance to injector end \\
-7 & 1 & 8E10.5 & 1-10 & ALPHA3 & $\alpha_{hom}$ & Constant in rate equation \\
-& & & 11-20 & HF & $h_F$ & Enthalpy of feed \\
-& & & 21-30 & R & $R$ & Gas constant \\
-& & & 31-40 & MN2H4 & $M^{N2H4}$ & Molecular weight of N2H4 \\
-& & & 41-50 & MNH3 & $M^{NH3}$ & Molecular weight of NH3 \\
-& & & 51-60 & MN2 & $M^{N2}$ & Molecular weight of N2 \\
-& & & 61-70 & MH2 & $M^{H2}$ & Molecular weight of H2 \\
-& & & 71-80 & ALPHAL & $\alpha_{het}^{N2H4}$ & Preexponential factor \\
-8 & 1 & 8E10.5 & 1-10 & ALPHA2 & $\alpha_{het}^{NH3}$ & Preexponential factor \\
-& & & 11-20 & AGM & $Q_{het}^{N2H4}/R$ & Activation energy, deg R \\
-& & & 21-30 & BGM & $Q_{het}^{NH3}/R$ & Activation energy, deg R \\
-& & & 31-40 & KP & $K_p$ & Thermal conductivity \\
-& & & 41-50 & TF & $T_F$ & Feed temperature \\
-& & & 51-60 & CF & $C_F$ & Specific heat of liquid N2H4 \\
-& & & 61-70 & NMAX1 & & Determ. axial step size (liq. reg.) \\
-& & & 71-80 & NMAX2 & & Determ. axial step size (liq. vap. reg.) \\
-9 & 1 & 8E10.5 & 1-10 & P & $P$ & Inlet chamber pressure \\
-& & & 11-20 & ZEND & & Bed length \\
-& & & 21-30 & DON2H4 & $D_0^{N2H4}$ & Diffusion coefficient of N2H4 \\
-& & & 31-40 & DONH3 & $D_0^{NH3}$ & Diffusion coefficient of NH3 \\
-& & & 41-50 & CGM & $Q_{hom}^{N2H4}/R$ & Activation energy, deg R \\
-& & & 51-60 & RADIUS & & Bed radius \\
-10 & 1 & 4E8.4 & 1-8 & 0. & & Table descriptor \\
-& & & 9-16 & 1. & & Table descriptor \\
-& & & 17-24 & NOFZ. & & Table descriptor \\
-& & & 25-32 & NRINGS. & & Table descriptor \\
-11 & * & 10E8.4 & 1-8, 9-16, etc. & Z(I) & $Z$ & Axial station \\
-12 & ** & 10E8.4 & 1-8, 9-16, etc. & RAD(I) & $r$ & Radial station \\
-13 & *** & 10E8.4 & 1-8, 9-16, etc. & A(z,r) & $a$ & Catalyst particle radius \\
-14 & 1 & 4E8.4 & 1-8 & 0. & & Table descriptor \\
-& & & 9-16 & 1. & & Table descriptor \\
-& & & 17-24 & NOFZ. & & Table descriptor \\
-& & & 25-32 & NRINGS. & & Table descriptor \\
-15 & * & 10E8.4 & 1-8, 9-16, etc. & Z(I) & $Z$ & Axial station \\
-16 & ** & 10E8.4 & 1-8, 9-16, etc. & RAD(I) & $r$ & Radial station \\
-17 & *** & 10E8.4 & 1-8, 9-16, etc. & AP(z,r) & $A_p$ & Total external catalyst particle surface area per unit volume of bed \\
-18 & 1 & 4E8.4 & 1-8 & 0. & & Table descriptor \\
-& & & 9-16 & 1. & & Table descriptor \\
-& & & 17-24 & NOFZ. & & Table descriptor \\
-& & & 25-32 & NRINGS. & & Table descriptor \\
-19 & * & 10E8.4 & 1-8, 9-16, etc. & Z(I) & $Z$ & Axial station \\
-20 & ** & 10E8.4 & 1-8, 9-16, etc. & RAD(I) & $r$ & Radial station \\
-21 & *** & 10E8.4 & 1-8, 9-16, etc. & DELTA(z,r) & $\delta$ & Interparticle void fraction \\
-
-\end{longtable}
+## List of Symbols
 
 
+> [Long table/sample listing omitted in milestone-1 markdown. See source: `docs/latex/kesten_1968.tex` section 3.]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section*{List of Symbols}
-
-\begin{longtable}{@{}p{1in}p{5in}@{}}
-\toprule
-**Symbol** & **Description** \\
-\midrule
-\endfirsthead
-
-\multicolumn{2}{c}%
-{{\tablename\ \thetable{} -- continued from previous page}} \\
-\toprule
-**Symbol** & **Description** \\
-\midrule
-\endhead
-
-\bottomrule
-\multicolumn{2}{r}{{Continued on next page}} \\
-\endfoot
-
-\bottomrule
-\endlastfoot
-
-$a$ & Radius of spherical particle, ft \\
-$A_{p}$ & Total external surface of catalyst particle per unit volume of bed, $ft^{-1}$ \\
-$c_{i}$ & Reactant concentration in interstitial fluid, $lb/ft^{3}$ \\
-$c_{p}$ & Reactant concentration in gas phase within the porous particle, $lb/ft^{3}$ \\
-$C_{F}$ & Specific heat of fluid in the interstitial phase, $Btu/lb$ deg R \\
-$\overline{C}_{F}$ & Average specific heat of fluid in the interstitial phase, Btu/lb deg R \\
-$D_{i}$ & Diffusion coefficient of reactant gas in the interstitial fluid, $ft^{2}/sec$ \\
-$D_{0}$ & Diffusion coefficient of reactant gas in the interstitial fluid at STP, $ft^{2}/sec$ \\
-$D_{p}$ & Diffusion coefficient of reactant gas in the porous particle, $ft^{2}/sec$ \\
-$f_{i}$ & Weighting factor in Eq. (I-11) \\
-$F$ & Rate of feed of hydrazine from buried injectors into the system (Ref. 1), $lb/ft^{3}-sec$ \\
-$g_{c}$ & Conversion factor, (lbm/lbe) $ft/sec^{2}$ \\
-$G$ & Mass flow rate, $lb/ft^{2}-sec$ \\
-$h$ & Enthalpy, $Btu/lb$ \\
-$h_{c}$ & Heat transfer coefficient, $Btu/ft^{2}$-sec-deg R \\
-$H$ & Heat of reaction (negative for exothermic reaction), $Btu/lb$ \\
-$k_{c}$ & Mass transfer coefficient, $ft/sec$ \\
-$k_{0}$ & Reaction rate constant, equals $\alpha e^{-\gamma}$ \\
-$K_{p}$ & Thermal conductivity of the porous catalyst particle, Btu/ft-sec-deg R \\
-
-$M$ & Molecular weight, lb/lb mole \\
-$\overline{M}$ & Average molecular weight, $lb/lb$ mole \\
-$n$ & Order of decomposition reaction \\
-$N_{r}$ & Radial mass flux, $lb/ft^{2}$-sec \\
-$P$ & Chamber pressure, psia \\
-$q_{r}$ & Radial heat flux, $Btu/ft^{2}-sec$ \\
-$Q_{het}$ & Activation energy for (heterogeneous) chemical reaction on the catalyst surfaces, $Btu/lb$ mole \\
-$Q_{hom}$ & Activation energy for (homogeneous) chemical reaction in the interstitial phase, $Btu/lb$ mole \\
-$r$ & Radial distance from the center of the cylindrical reaction chamber, ft \\
-$r_{het}$ & Rate of (heterogeneous) chemical reaction on the catalyst surfaces, $lb/ft^{3}-sec$ \\
-$r_{hom}$ & Rate of (homogeneous) chemical reaction in the interstitial phase, $lb/ft^{3}-sec$ \\
-$R$ & Gas constant, equals 10.73 psia $ft^{3}/lb$ mole deg R, or, Radius of reactor \\
-$T$ & Temperature, deg R \\
-$T_{vap}$ & Vaporization temperature, deg R \\
-$w_{i}$ & Weight fraction of reactant in interstitial phase \\
-$x$ & Radial distance from the center of the spherical catalyst particle, ft \\
-$x_{0}$ & Defined in Appendix I (Discussion of Subroutine SGRAD) \\
-$z$ & Axial distance, ft \\
-$z_{0}$ & Axial distance to the end of buried injectors, ft \\
-$\alpha$ & Preexponential factor in rate equation \\
-
-$\beta$ & Equals $[-(c_{p})_{s} H D_{p}]/[{K_{p}(T_{p})_{s}}]$ \\
-$\gamma$ & Equals $Q_{het}/[R (T_{p})_{s}]$ \\
-$\delta$ & Interparticle void fraction \\
-$\epsilon$ & Eddy diffusivity, $ft^{2}/sec$ \\
-$\lambda$ & Eddy conductivity, Btu/ft-sec-deg R \\
-$\mu$ & Viscosity of interstitial fluid, lb/ft sec \\
-$\rho_{i}$ & Density of interstitial fluid, $lb/ft^{3}$ \\
-\midrule
-\multicolumn{2}{l}{**Subscripts**} \\
-\midrule
-$F$ & Refers to feed \\
-$i$ & Refers to interstitial phase \\
-$P$ & Refers to gas within the porous catalyst particle \\
-$s$ & Refers to surface of catalyst particle \\
-\midrule
-\multicolumn{2}{l}{**Superscripts**} \\
-\midrule
-$j$ & Refers to chemical species \\
-$L$ & Refers to liquid at vaporization temperature \\
-$V$ & Refers to vapor at vaporization temperature \\
-
-\end{longtable}
 
 ## Conversion Notes
 
-- This major section is a first-pass milestone-1 conversion draft generated from the maintained LaTeX transcription source.
-- Input/output table fidelity and figure formatting need focused cleanup in review pass.
-- Section status is in-progress until QA checklist and source-map ambiguity triage are completed.
+- This major section is converted for milestone 1 using the maintained LaTeX transcription source.
+- Large tables and print listings were collapsed to placeholders for readability; detailed fidelity review remains.
+- Section status is `converted` pending full QA checklist sign-off.
 
 ## References
 

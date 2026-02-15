@@ -29,3 +29,4 @@ Track section-by-section conversion status and review notes.
 - Verified previously unreadable Eq. (11) against original PDF page image and downgraded ambiguity severity.
 - Generated first-pass draft conversions for major sections 3 and 4 to complete end-to-end major-section coverage.
 - Applied structural markdown cleanup to sections 3 and 4 (list wrappers/items and basic LaTeX artifact reduction).
+- Collapsed large LaTeX-only table/figure/listing blocks in sections 3 and 4 into readable milestone-1 placeholders with source pointers.
