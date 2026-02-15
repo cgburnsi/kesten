@@ -15,7 +15,7 @@ Build a small, correct, legible, modular, Python library that implements the ste
 ## Execution priority (must follow)
 - Work milestone-by-milestone in order; do not start later milestones early unless explicitly approved.
 - During milestone 1, optimize for readability and speed of conversion over perfect layout fidelity.
-- During milestone 2, optimize for faithful structure/content parity with the original source.
+- During milestone 2, optimize for faithful structure/content parity with the original source, with LaTeX as canonical output for publishable PDFs.
 
 ## Document conversion contract
 ### Milestone 1 (quick readable conversion)
@@ -32,7 +32,7 @@ Build a small, correct, legible, modular, Python library that implements the ste
   - modernized Markdown structure for readability
 
 ### Milestone 2 (production-grade faithful conversion)
-- Goal: high-fidelity Markdown conversion suitable as canonical project documentation.
+- Goal: high-fidelity dual conversion, with LaTeX as canonical project documentation and Markdown kept synchronized.
 - Required preservation:
   - heading hierarchy and numbering parity
   - equation symbols and indices exactly preserved
@@ -64,6 +64,8 @@ Build a small, correct, legible, modular, Python library that implements the ste
 ## Source of truth (read these first)
 - README.md — how to install/run and what the repo is for
 - ARCHITECTURE.md — module boundaries and data ownership rules
+- docs/conversion/spec.md — rules for milestones 1-2 conversion outputs
+- docs/implementation/spec.md — scope and acceptance for milestones 3-4 solver implementation
 - docs/verification/plan.md — verification strategy + acceptance gates
 - docs/design/decisions.md — decision log (add entries when changing direction)
 

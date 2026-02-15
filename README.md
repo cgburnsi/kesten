@@ -11,6 +11,7 @@ A small, deterministic Python library for reproducing the steady-state numerical
 - Conversion rules: `docs/conversion/spec.md`
 - Conversion progress log: `docs/conversion/worklog.md`
 - Conversion QA checklist: `docs/conversion/qa_checklist.md`
+- Implementation rules (milestones 3-4): `docs/implementation/spec.md`
 - Verification tolerances: `docs/verification/tolerances.md`
 - Decision history: `docs/design/decisions.md`
 
