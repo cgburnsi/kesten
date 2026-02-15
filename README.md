@@ -61,6 +61,16 @@ python app/run_solver.py --mode physics --region vapor
 python app/run_solver.py --mode physics --region liquid_vapor
 ```
 
+## Plot outputs
+```sh
+# Interactive plot window
+python app/run_solver.py --mode physics --region liquid --plot
+
+# Save PNG
+python app/run_solver.py --mode physics --region liquid --plot-output artifacts/plots/liquid_physics.png
+python app/run_solver.py --mode iterate --initial 0 --target 1 --max-iterations 50 --plot-output artifacts/plots/iterate_residual.png
+```
+
 ## Run regression gate
 ```sh
 python app/run_solver.py --mode regress --region liquid --source baseline
