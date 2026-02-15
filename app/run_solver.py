@@ -66,6 +66,18 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Plot temperature vs catalyst bed length (Z) across liquid, liquid-vapor, and vapor regions",
     )
+    parser.add_argument(
+        "--temp-curve-source",
+        choices=("model", "reference", "both"),
+        default="both",
+        help="Source for --plot-temp-bed: model points, reference CSV, or both",
+    )
+    parser.add_argument(
+        "--temp-curve-file",
+        type=str,
+        default=str(Path("docs") / "verification" / "general_curve_data.csv"),
+        help="Reference CSV path for --plot-temp-bed when using reference or both",
+    )
     return parser.parse_args()
 
 
@@ -227,23 +239,63 @@ def _collect_bed_temperature_points(source: str) -> List[Dict[str, float]]:
     return points
 
 
+def _load_reference_temperature_curve(path: str) -> List[Dict[str, float]]:
+    curve_path = Path(path)
+    if not curve_path.exists():
+        return []
+
+    rows: List[Dict[str, float]] = []
+    for line in curve_path.read_text(encoding="utf-8").splitlines():
+        text = line.strip()
+        if not text:
+            continue
+        parts = [item.strip() for item in text.split(",")]
+        if len(parts) < 2:
+            continue
+        try:
+            z_value = float(parts[0])
+            temp_value = float(parts[1])
+        except ValueError:
+            continue
+        rows.append({"Z": z_value, "TEMP": temp_value})
+
+    rows.sort(key=lambda item: item["Z"])
+    return rows
+
+
 def _plot_temperature_vs_bed(
     points: List[Dict[str, float]],
     mode_label: str,
+    curve_source: str,
     output_path: str = "",
     compare_points: List[Dict[str, float]] | None = None,
     compare_label: str = "",
+    reference_points: List[Dict[str, float]] | None = None,
 ) -> None:
     import matplotlib.pyplot as plt
 
-    if not points:
+    if not points and not reference_points:
         return
 
-    x_values = [p["Z"] for p in points]
-    y_values = [p["TEMP"] for p in points]
-
     fig, axis = plt.subplots(1, 1, figsize=(9, 4.5))
-    axis.plot(x_values, y_values, marker="o", linewidth=1.8, label=mode_label)
+    model_plotted = False
+    reference_plotted = False
+
+    if curve_source in ("model", "both") and points:
+        x_values = [p["Z"] for p in points]
+        y_values = [p["TEMP"] for p in points]
+        axis.plot(x_values, y_values, marker="o", linewidth=1.8, label=mode_label)
+        model_plotted = True
+
+    if curve_source in ("reference", "both") and reference_points:
+        axis.plot(
+            [p["Z"] for p in reference_points],
+            [p["TEMP"] for p in reference_points],
+            linewidth=2.0,
+            linestyle="-",
+            label="reference_curve",
+        )
+        reference_plotted = True
 
     if compare_points:
         axis.plot(
@@ -256,6 +308,8 @@ def _plot_temperature_vs_bed(
         )
         axis.legend(loc="best")
 
+    if model_plotted or reference_plotted or compare_points:
+        axis.legend(loc="best")
     axis.set_xlabel("Catalyst bed length Z [ft]")
     axis.set_ylabel("Temperature [degR]")
     axis.set_title("Temperature vs catalyst bed length")
@@ -275,6 +329,7 @@ def _plot_temperature_vs_bed(
 
 def main() -> None:
     args = parse_args()
+    reference_curve_points = _load_reference_temperature_curve(args.temp_curve_file)
     if args.mode == "baseline":
         baseline_result = run_region_baseline(args.region)
         baseline_result["row_count"] = len(baseline_result["rows"])
@@ -288,9 +343,11 @@ def main() -> None:
             _plot_temperature_vs_bed(
                 points=_collect_bed_temperature_points("baseline"),
                 mode_label="baseline",
+                curve_source=args.temp_curve_source,
                 output_path=args.plot_output,
                 compare_points=compare_points,
                 compare_label=compare_label,
+                reference_points=reference_curve_points,
             )
             return
         if args.plot or args.plot_output:
@@ -321,9 +378,11 @@ def main() -> None:
             _plot_temperature_vs_bed(
                 points=_collect_bed_temperature_points("physics"),
                 mode_label="physics",
+                curve_source=args.temp_curve_source,
                 output_path=args.plot_output,
                 compare_points=compare_points,
                 compare_label=compare_label,
+                reference_points=reference_curve_points,
             )
             return
         if args.plot or args.plot_output:

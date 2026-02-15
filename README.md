@@ -78,6 +78,10 @@ python app/run_solver.py --mode physics --region vapor --plot-output artifacts/p
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot-output artifacts/plots/temp_vs_bed_physics.png
 python app/run_solver.py --mode physics --region liquid --plot-temp-bed --plot-compare --plot-output artifacts/plots/temp_vs_bed_compare.png
+
+# Use your reference curve file directly (model/reference/both)
+python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-curve-source reference --plot-output artifacts/plots/temp_vs_bed_reference.png
+python app/run_solver.py --mode physics --region liquid --plot-temp-bed --temp-curve-source both --plot-output artifacts/plots/temp_vs_bed_model_vs_reference.png
 ```
 
 ## Run regression gate
