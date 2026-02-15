@@ -32,3 +32,4 @@ Track section-by-section conversion status and review notes.
 - Collapsed large LaTeX-only table/figure/listing blocks in sections 3 and 4 into readable milestone-1 placeholders with source pointers.
 - Completed QA pass for section 2 and upgraded status to reviewed.
 - Seeded `docs/latex/references.bib` with stable keys for references 1-11.
+- Recorded section-by-section QA outcomes in `docs/conversion/qa_results.md`; sections 3 and 4 remain converted due open completeness checks for omitted blocks.

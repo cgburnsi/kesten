@@ -200,6 +200,7 @@ Distributions of the type shown in Fig. (I-10) are typical of those found in thi
 
 - This major section is converted for milestone 1 using the maintained LaTeX transcription source.
 - Figure, flowchart, and listing blocks were collapsed to placeholders for readability; detailed fidelity review remains.
+- QA outcome: checklist is partially satisfied; section is not yet `reviewed` because figure/listing completeness checks are still open.
 - Section status is `converted` pending full QA checklist sign-off.
 
 ## References

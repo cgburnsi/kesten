@@ -269,6 +269,7 @@ For each run there will be only one card number one. Cards two through twenty-on
 
 - This major section is converted for milestone 1 using the maintained LaTeX transcription source.
 - Large tables and print listings were collapsed to placeholders for readability; detailed fidelity review remains.
+- QA outcome: checklist is partially satisfied; section is not yet `reviewed` because table/listing completeness checks are still open.
 - Section status is `converted` pending full QA checklist sign-off.
 
 ## References
