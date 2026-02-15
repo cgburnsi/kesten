@@ -14,4 +14,4 @@ Verify that the implemented numerical loop is deterministic, stable, and aligned
 - File-based regression harness checks for liquid, vapor, and liquid-vapor reference outputs (`tests/test_regression_baseline.py`).
 - Reconstructed liquid-region physics slice is available behind CLI `--mode physics --region liquid` and covered by `tests/test_liquid_physics.py`.
 - Reconstructed vapor-region physics slice is available behind CLI `--mode physics --region vapor` and covered by `tests/test_vapor_physics.py`.
-- Next stage calibrates the reconstructed liquid physics slice until it meets the liquid tolerance gate.
+- Current liquid and vapor physics slices both pass table-level regression gates; next stage targets point-level error reduction and liquid-vapor physics reconstruction.

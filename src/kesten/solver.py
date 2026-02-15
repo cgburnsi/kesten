@@ -69,7 +69,7 @@ def run_region_physics(region: str) -> Dict[str, object]:
         rows = run_liquid_region_physics()
         return {
             "region": normalized_region,
-            "mode": "physics_liquid_slice_v1",
+            "mode": "physics_liquid_slice_v2",
             "rows": rows,
         }
 
