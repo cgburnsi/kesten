@@ -10,16 +10,16 @@ SRC_DIR = ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from kesten import SolverConfig, run_region_baseline, run_solver
+from kesten import SolverConfig, run_region_baseline, run_region_physics, run_solver
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run minimal Kesten steady-state solver loop.")
     parser.add_argument(
         "--mode",
-        choices=("iterate", "baseline"),
+        choices=("iterate", "baseline", "physics"),
         default="iterate",
-        help="iterate: fixed-point loop, baseline: replay golden dataset for selected region",
+        help="iterate: fixed-point loop, baseline: replay golden dataset, physics: reconstructed region slice",
     )
     parser.add_argument(
         "--region",
@@ -41,6 +41,11 @@ def main() -> None:
         baseline_result = run_region_baseline(args.region)
         baseline_result["row_count"] = len(baseline_result["rows"])
         print(json.dumps(baseline_result, indent=2))
+        return
+    if args.mode == "physics":
+        physics_result = run_region_physics(args.region)
+        physics_result["row_count"] = len(physics_result["rows"])
+        print(json.dumps(physics_result, indent=2))
         return
 
     config = SolverConfig(

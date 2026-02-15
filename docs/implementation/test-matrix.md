@@ -7,7 +7,7 @@ Track required tests by milestone, region, and scope.
 | Milestone | Component | Test Type | Reference Data | Status | Notes |
 |---|---|---|---|---|---|
 | 3 | solver1d convergence loop | unit | n/a | implemented | Covered by `tests/test_solver.py`. |
-| 3 | solver1d liquid region | regression | `docs/verification/liquid_region_kesten_output.txt` | implemented | Baseline harness compares deterministic golden-replay output against liquid reference fields. |
+| 3 | solver1d liquid region | regression | `docs/verification/liquid_region_kesten_output.txt` | in progress | Baseline replay is implemented; first reconstructed liquid physics slice (`physics` mode) is implemented and awaiting tolerance-gate comparison wiring. |
 | 3 | solver1d vapor region | regression | `docs/verification/Vapor Region Correct Output.txt` | implemented | Baseline harness compares deterministic golden-replay output against vapor reference fields. |
 | 3 | solver1d liquid-vapor region | regression | `docs/verification/LV_region_Kesten_Output.txt` | implemented | Baseline harness compares deterministic golden-replay output against liquid-vapor reference fields. |
 | 4 | solver2d stepping | unit | n/a | planned | |

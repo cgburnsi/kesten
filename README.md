@@ -53,6 +53,11 @@ python examples/ex01_minimal_solver.py
 python examples/ex02_baseline_regression.py
 ```
 
+## Run liquid physics slice
+```sh
+python app/run_solver.py --mode physics --region liquid
+```
+
 ## Build LaTeX PDF
 ```sh
 tools/build_pdf.sh

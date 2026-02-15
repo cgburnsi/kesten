@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Dict, List
 
 from .golden_data import load_region_rows
+from .liquid_physics import run_liquid_region_physics
 
 
 @dataclass(frozen=True)
@@ -55,5 +56,22 @@ def run_region_baseline(region: str) -> Dict[str, object]:
     return {
         "region": region,
         "mode": "golden_replay_baseline",
+        "rows": rows,
+    }
+
+
+def run_region_physics(region: str) -> Dict[str, object]:
+    """Run the initial reconstructed physics slice for a region."""
+
+    normalized_region = region.strip().lower()
+    if normalized_region != "liquid":
+        raise NotImplementedError(
+            f"Physics mode is currently implemented only for 'liquid', got '{region}'"
+        )
+
+    rows = run_liquid_region_physics()
+    return {
+        "region": normalized_region,
+        "mode": "physics_liquid_slice_v1",
         "rows": rows,
     }
