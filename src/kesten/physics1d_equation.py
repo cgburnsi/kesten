@@ -214,10 +214,8 @@ def _run_fortran_inspired_vapor_profile(
     h_vap: List[float] = [h]
 
     dz = (constants.zend - z_vapor_start) / max(vapor_steps - 1, 1)
-    peak_reached = False
-    prev_dtemp_dz = None
     step_count = 0
-    max_steps = max(vapor_steps * 6, 300)
+    max_steps = max(vapor_steps * 10, 600)
     while z < constants.zend - 1.0e-12 and step_count < max_steps:
         step_count += 1
         temp_safe = max(temp, 1.0)
@@ -228,10 +226,10 @@ def _run_fortran_inspired_vapor_profile(
         dela = min(max(unbar("ZTBLD", z), 1.0e-6), 0.999999)
         h4 = unbar("H4TBL", temp_safe)
         h3 = unbar("H3TBL", temp_safe)
-        cp4 = unbar("CFTBL4", temp_safe)
-        cp3 = unbar("CFTBL3", temp_safe)
-        cp2 = unbar("CFTBL2", temp_safe)
         cp1 = unbar("CFTBL1", temp_safe)
+        cp2 = unbar("CFTBL2", temp_safe)
+        cp3 = unbar("CFTBL3", temp_safe)
+        cp4 = unbar("CFTBL4", temp_safe)
         viscosity = max(unbar("VISVST", temp_safe), 1.0e-20)
 
         reciprocal_wm = c1 / cfg.wm1 + c2 / cfg.wm2 + c3 / cfg.wm3 + c4 / cfg.wm4
@@ -266,7 +264,8 @@ def _run_fortran_inspired_vapor_profile(
             * (max(g / max(ap * viscosity, 1.0e-20), 1.0e-20) ** -0.41)
         )
 
-        t2 = cfg.porosity * constants.alpha3 * max(c4, 0.0) * exp(-constants.cgm / temp_safe)
+        rhom = constants.alpha3 * max(c4, 0.0) * exp(-constants.cgm / temp_safe)
+        t2 = rhom * dela
         t4 = ap * akc * max(c4, 0.0)
         if cfg.use_full_sgrad:
             try:
@@ -320,7 +319,7 @@ def _run_fortran_inspired_vapor_profile(
         t3_arrhenius = cfg.ammonia_rate_scale * constants.alpha2 * max(c3, 0.0) * exp(-constants.bgm / temp_safe)
         t3_sgrad = ap * max(grad3, 0.0)
         blend = min(max(cfg.sgrad_blend, 0.0), 1.0)
-        t3 = (1.0 - blend) * t3_arrhenius + blend * t3_sgrad
+        t3 = (1.0 - blend) * t3_sgrad + blend * t3_arrhenius
         t2 = min(max(t2, -cfg.fortran_max_source), cfg.fortran_max_source)
         t3 = min(max(t3, -cfg.fortran_max_source), cfg.fortran_max_source)
         t4 = min(max(t4, -cfg.fortran_max_source), cfg.fortran_max_source)
@@ -342,10 +341,7 @@ def _run_fortran_inspired_vapor_profile(
             - h3 / max(g, 1.0e-12) * t3
             - cfg.feed_rate / max(g, 1.0e-12) * (h - cfg.hf)
         )
-        dtemp_dz = dh_dz / max(cp_mix, 1.0e-9) - cfg.heat_loss_coeff * (temp - cfg.heat_sink_temp)
-        if prev_dtemp_dz is not None and prev_dtemp_dz > 0.0 and dtemp_dz <= 0.0:
-            peak_reached = True
-        prev_dtemp_dz = dtemp_dz
+        dtemp_dz = dh_dz / max(cp_mix, 1.0e-12)
 
         dp_dz = (
             (dela - 1.0)
@@ -356,12 +352,44 @@ def _run_fortran_inspired_vapor_profile(
         )
         dp_dz /= 144.0
 
-        if cfg.adaptive_dz:
-            dz_energy = abs(h4) / max(cfg.enmx3 * abs(dh_dz), 1.0e-20)
-            if peak_reached:
-                dz_energy *= 0.6
-            dz = max(cfg.dz_min, min(cfg.dz_max, dz_energy))
-            dz = min(dz, max(constants.zend - z, 1.0e-12))
+        # Fortran-style adaptive stepping from enthalpy slope plus distance cap.
+        if cfg.adaptive_dz and abs(dh_dz) > 1.0e-20:
+            z1 = abs(h4) / max(cfg.enmx3 * abs(dh_dz), 1.0e-20)
+            z2 = 0.05 * max(constants.zend - z, 1.0e-12)
+            dz = max(cfg.dz_min, min(cfg.dz_max, z1, z2))
+        dz = min(dz, max(constants.zend - z, 1.0e-12))
+
+        w1 = c1 / rho
+        w2 = c2 / rho
+        w3 = c3 / rho
+        w4 = c4 / rho
+        s1 = 1.0 / max(g, 1.0e-12)
+        s5 = cfg.feed_rate / max(g * rho, 1.0e-12)
+        dw4_dz = s1 * (cfg.feed_rate - t2 - t4) - w4 * s5
+        dw3_dz = s1 * (t2 * cfg.wm3 / cfg.wm4 + t4 * cfg.wm3 / cfg.wm4 - t3) - w3 * s5
+        dw2_dz = (
+            s1 * (0.5 * t2 * cfg.wm2 / cfg.wm4 + 0.5 * t4 * cfg.wm2 / cfg.wm4 + 0.5 * t3 * cfg.wm2 / cfg.wm3)
+            - w2 * s5
+        )
+        dw1_dz = (
+            s1 * (0.5 * t2 * cfg.wm1 / cfg.wm4 + 0.5 * t4 * cfg.wm1 / cfg.wm4 + 1.5 * t3 * cfg.wm1 / cfg.wm3)
+            - w1 * s5
+        )
+        sum_wm = w1 / cfg.wm1 + w2 / cfg.wm2 + w3 / cfg.wm3 + w4 / cfg.wm4
+        sum_dwdz = dw1_dz / cfg.wm1 + dw2_dz / cfg.wm2 + dw3_dz / cfg.wm3 + dw4_dz / cfg.wm4
+        dmdz = -wmav / max(sum_wm, 1.0e-20) * sum_dwdz
+        drdzr = dmdz / max(wmav, 1.0e-20) - dtemp_dz / max(temp_safe, 1.0e-12) + dp_dz / max(pressure_safe, 1.0e-12)
+        t5 = cfg.feed_rate / max(g, 1.0e-12) - drdzr
+        dc4_dz = t1 * (cfg.feed_rate - t2 - t4) - c4 * t5
+        dc3_dz = t1 * (t2 * cfg.wm3 / cfg.wm4 + t4 * cfg.wm3 / cfg.wm4 - t3) - c3 * t5
+        dc2_dz = (
+            t1 * (0.5 * t2 * cfg.wm2 / cfg.wm4 + 0.5 * t4 * cfg.wm2 / cfg.wm4 + 0.5 * t3 * cfg.wm2 / cfg.wm3)
+            - c2 * t5
+        )
+        dc1_dz = (
+            t1 * (0.5 * t2 * cfg.wm1 / cfg.wm4 + 0.5 * t4 * cfg.wm1 / cfg.wm4 + 1.5 * t3 * cfg.wm1 / cfg.wm3)
+            - c1 * t5
+        )
 
         delta_c1 = dz * dc1_dz
         delta_c2 = dz * dc2_dz
@@ -372,11 +400,8 @@ def _run_fortran_inspired_vapor_profile(
         c3 = max(0.0, c3 + delta_c3)
         c4 = max(0.0, c4 + delta_c4)
 
-        delta_h = max(-cfg.fortran_max_dh_step, min(cfg.fortran_max_dh_step, dz * dh_dz))
-        h += delta_h
-
-        delta_t = max(-cfg.fortran_max_dtemp_step, min(cfg.fortran_max_dtemp_step, dz * dtemp_dz))
-        temp = min(max(temp + delta_t, cfg.fortran_min_temp), cfg.fortran_max_temp)
+        h += dz * dh_dz
+        temp = min(max(temp + dz * dtemp_dz, cfg.fortran_min_temp), cfg.fortran_max_temp)
         pressure = max(0.1, pressure + dz * dp_dz)
         z += dz
 
