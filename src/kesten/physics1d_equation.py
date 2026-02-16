@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from math import exp
 from typing import Dict, List, Tuple
 
-from .fortran_port import conc_port, lqvp_port, param_port, sgrad_approx_port
+from .fortran_port import conc_port, lqvp_port, param_port, sgrad_approx_port, sgrad_full_port
 from .property_tables import unbar
 
 
@@ -75,6 +75,11 @@ class EquationModelConfig:
     fortran_min_temp: float = 400.0
     fortran_max_temp: float = 3500.0
     sgrad_blend: float = 0.0
+    use_full_sgrad: bool = True
+    enmx3: float = 80.0
+    adaptive_dz: bool = True
+    dz_min: float = 1.0e-6
+    dz_max: float = 2.0e-3
 
 
 def _arrhenius(alpha: float, e_over_r: float, temp: float) -> float:
@@ -209,7 +214,12 @@ def _run_fortran_inspired_vapor_profile(
     h_vap: List[float] = [h]
 
     dz = (constants.zend - z_vapor_start) / max(vapor_steps - 1, 1)
-    for _ in range(vapor_steps - 1):
+    peak_reached = False
+    prev_dtemp_dz = None
+    step_count = 0
+    max_steps = max(vapor_steps * 6, 300)
+    while z < constants.zend - 1.0e-12 and step_count < max_steps:
+        step_count += 1
         temp_safe = max(temp, 1.0)
         pressure_safe = max(pressure, 1.0e-6)
         rho = max(c1 + c2 + c3 + c4, 1.0e-9)
@@ -258,20 +268,55 @@ def _run_fortran_inspired_vapor_profile(
 
         t2 = cfg.porosity * constants.alpha3 * max(c4, 0.0) * exp(-constants.cgm / temp_safe)
         t4 = ap * akc * max(c4, 0.0)
-        grad3, _tgrad3 = sgrad_approx_port(
-            temp=temp_safe,
-            pressure=pressure_safe,
-            g=max(g, 1.0e-12),
-            c1=max(c1, 0.0),
-            c2=max(c2, 0.0),
-            c3=max(c3, 0.0),
-            c4=max(c4, 0.0),
-            dif3=cfg.dif3,
-            dif4=cfg.dif4,
-            a=a,
-            ap=ap,
-            kp=1.0e-4,
-        )
+        if cfg.use_full_sgrad:
+            try:
+                grad3, _tgrad3 = sgrad_full_port(
+                    temp=temp_safe,
+                    pressure=pressure_safe,
+                    g=max(g, 1.0e-12),
+                    c1=max(c1, 0.0),
+                    c2=max(c2, 0.0),
+                    c3=max(c3, 0.0),
+                    c4=max(c4, 0.0),
+                    dif3=cfg.dif3,
+                    dif4=cfg.dif4,
+                    a=a,
+                    ap=ap,
+                    bgm=constants.bgm,
+                    kp=1.0e-4,
+                    alpha2=constants.alpha2,
+                    en3=-1.6,
+                )
+            except Exception:
+                grad3, _tgrad3 = sgrad_approx_port(
+                    temp=temp_safe,
+                    pressure=pressure_safe,
+                    g=max(g, 1.0e-12),
+                    c1=max(c1, 0.0),
+                    c2=max(c2, 0.0),
+                    c3=max(c3, 0.0),
+                    c4=max(c4, 0.0),
+                    dif3=cfg.dif3,
+                    dif4=cfg.dif4,
+                    a=a,
+                    ap=ap,
+                    kp=1.0e-4,
+                )
+        else:
+            grad3, _tgrad3 = sgrad_approx_port(
+                temp=temp_safe,
+                pressure=pressure_safe,
+                g=max(g, 1.0e-12),
+                c1=max(c1, 0.0),
+                c2=max(c2, 0.0),
+                c3=max(c3, 0.0),
+                c4=max(c4, 0.0),
+                dif3=cfg.dif3,
+                dif4=cfg.dif4,
+                a=a,
+                ap=ap,
+                kp=1.0e-4,
+            )
         t3_arrhenius = cfg.ammonia_rate_scale * constants.alpha2 * max(c3, 0.0) * exp(-constants.bgm / temp_safe)
         t3_sgrad = ap * max(grad3, 0.0)
         blend = min(max(cfg.sgrad_blend, 0.0), 1.0)
@@ -298,6 +343,9 @@ def _run_fortran_inspired_vapor_profile(
             - cfg.feed_rate / max(g, 1.0e-12) * (h - cfg.hf)
         )
         dtemp_dz = dh_dz / max(cp_mix, 1.0e-9) - cfg.heat_loss_coeff * (temp - cfg.heat_sink_temp)
+        if prev_dtemp_dz is not None and prev_dtemp_dz > 0.0 and dtemp_dz <= 0.0:
+            peak_reached = True
+        prev_dtemp_dz = dtemp_dz
 
         dp_dz = (
             (dela - 1.0)
@@ -307,6 +355,13 @@ def _run_fortran_inspired_vapor_profile(
             / (64.4 * max(a, 1.0e-12) * rho)
         )
         dp_dz /= 144.0
+
+        if cfg.adaptive_dz:
+            dz_energy = abs(h4) / max(cfg.enmx3 * abs(dh_dz), 1.0e-20)
+            if peak_reached:
+                dz_energy *= 0.6
+            dz = max(cfg.dz_min, min(cfg.dz_max, dz_energy))
+            dz = min(dz, max(constants.zend - z, 1.0e-12))
 
         delta_c1 = dz * dc1_dz
         delta_c2 = dz * dc2_dz
