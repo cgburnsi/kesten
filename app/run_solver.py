@@ -19,9 +19,9 @@ CALIBRATED_WARNING = (
     "for full-bed temperature with simplifying assumptions and are not yet fully validated."
 )
 FORTRAN_INSPIRED_WARNING = (
-    "FORTRAN-INSPIRED VAPOR MODE: structural equations are partially ported, but original "
-    "UNBAR/TABLES property-data sources are missing in this repository, so this mode is not "
-    "a validated reproduction of the 1968 vapor-region physics yet."
+    "FORTRAN-INSPIRED VAPOR MODE: structural equations and table lookups are partially ported "
+    "from legacy sources, but this path is still experimental and not yet a validated "
+    "reproduction of the 1968 vapor-region physics."
 )
 
 

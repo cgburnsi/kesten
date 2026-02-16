@@ -6,6 +6,9 @@ from dataclasses import dataclass
 from math import exp
 from typing import Dict, List, Tuple
 
+from .fortran_port import conc_port, lqvp_port, param_port, sgrad_approx_port
+from .property_tables import unbar
+
 
 @dataclass(frozen=True)
 class CanonicalCaseConstants:
@@ -46,7 +49,7 @@ class EquationModelConfig:
     wm3: float = 17.031
     wm4: float = 32.045
     gas_constant: float = 10.7316
-    pressure_init: float = 150.0
+    pressure_init: float = 100.0
     mass_flux: float = 2.8
     feed_rate: float = 0.0
     hf: float = 0.0
@@ -66,6 +69,12 @@ class EquationModelConfig:
     cp2: float = 0.30
     cp3: float = 0.60
     cp4: float = 0.55
+    fortran_max_source: float = 2.0e4
+    fortran_max_dtemp_step: float = 35.0
+    fortran_max_dh_step: float = 250.0
+    fortran_min_temp: float = 400.0
+    fortran_max_temp: float = 3500.0
+    sgrad_blend: float = 0.0
 
 
 def _arrhenius(alpha: float, e_over_r: float, temp: float) -> float:
@@ -172,97 +181,147 @@ def _run_reduced_vapor_profile(
     return z_vap, t_vap, h_vap
 
 
-def _concentrations_from_interface_state(
-    temp: float,
-    pressure: float,
-    h: float,
-    cfg: EquationModelConfig,
-) -> tuple[float, float, float, float]:
-    h4 = cfg.h4_reaction
-    denom = h4 if abs(h4) > 1.0e-9 else -1.0e-9
-    xv = -(h - cfg.hf) / denom
-    xv = min(max(xv, 0.0), 1.0)
-    denom2 = max(1.0 + xv, 1.0e-9)
-
-    c4 = (pressure * cfg.wm4 / (cfg.gas_constant * temp)) * ((1.0 - xv) / denom2)
-    c3 = (pressure * cfg.wm3 / (cfg.gas_constant * temp)) * (xv / denom2)
-    c2 = (pressure * cfg.wm2 / (2.0 * cfg.gas_constant * temp)) * (xv / denom2)
-    c1 = (pressure * cfg.wm1 / (2.0 * cfg.gas_constant * temp)) * (xv / denom2)
-    return c1, c2, c3, c4
-
-
 def _run_fortran_inspired_vapor_profile(
     constants: CanonicalCaseConstants,
     cfg: EquationModelConfig,
     vapor_steps: int,
+    z_vapor_start: float,
+    h_vapor_start: float,
 ) -> tuple[List[float], List[float], List[float]]:
-    z = cfg.z_lv_target
+    z = z_vapor_start
     temp = constants.tvap
-    h = constants.hv
+    h = h_vapor_start
     pressure = cfg.pressure_init
-    c1, c2, c3, c4 = _concentrations_from_interface_state(temp, pressure, h, cfg)
+    c1, c2, c3, c4 = conc_port(
+        temp=temp,
+        pressure=pressure,
+        wm4=cfg.wm4,
+        wm3=cfg.wm3,
+        wm2=cfg.wm2,
+        wm1=cfg.wm1,
+        gas_constant=cfg.gas_constant,
+        h=h,
+        hf=cfg.hf,
+    )
 
     z_vap: List[float] = [z]
     t_vap: List[float] = [temp]
     h_vap: List[float] = [h]
 
-    dz = (constants.zend - cfg.z_lv_target) / max(vapor_steps - 1, 1)
+    dz = (constants.zend - z_vapor_start) / max(vapor_steps - 1, 1)
     for _ in range(vapor_steps - 1):
         temp_safe = max(temp, 1.0)
         pressure_safe = max(pressure, 1.0e-6)
         rho = max(c1 + c2 + c3 + c4, 1.0e-9)
+        ap = max(unbar("ZTBLAP", z), 1.0e-12)
+        a = max(unbar("ZTBLA", z), 1.0e-12)
+        dela = min(max(unbar("ZTBLD", z), 1.0e-6), 0.999999)
+        h4 = unbar("H4TBL", temp_safe)
+        h3 = unbar("H3TBL", temp_safe)
+        cp4 = unbar("CFTBL4", temp_safe)
+        cp3 = unbar("CFTBL3", temp_safe)
+        cp2 = unbar("CFTBL2", temp_safe)
+        cp1 = unbar("CFTBL1", temp_safe)
+        viscosity = max(unbar("VISVST", temp_safe), 1.0e-20)
 
         reciprocal_wm = c1 / cfg.wm1 + c2 / cfg.wm2 + c3 / cfg.wm3 + c4 / cfg.wm4
         wmav = rho / max(reciprocal_wm, 1.0e-12)
 
-        dif4 = cfg.dif4 * (temp_safe / 492.0) ** 1.823 * (14.7 / pressure_safe)
-        viscosity = cfg.viscosity_ref * (temp_safe / constants.tf) ** cfg.viscosity_temp_exp
+        gatz0 = cfg.mass_flux + cfg.feed_rate * 0.0
+        g, _gmma_v, _k_v, _beta_v, dif4 = param_port(
+            temp=temp_safe,
+            z=z,
+            cc=max(c4, 0.0),
+            hr=h4,
+            lvop=0,
+            z0=0.0,
+            g0=cfg.mass_flux,
+            fc=cfg.feed_rate,
+            gatz0=gatz0,
+            agm=constants.agm,
+            bgm=constants.bgm,
+            alpha1=constants.alpha1,
+            alpha2=constants.alpha2,
+            dif3=cfg.dif3,
+            dif4=cfg.dif4,
+            pressure=pressure_safe,
+            kp=1.0e-4,
+            c1=max(c1, 1.0e-9),
+        )
         akc = (
             0.61
-            * cfg.mass_flux
+            * g
             / rho
             * (max(viscosity / max(rho * dif4, 1.0e-20), 1.0e-20) ** -0.667)
-            * (max(cfg.mass_flux / max(cfg.surface_area * viscosity, 1.0e-20), 1.0e-20) ** -0.41)
+            * (max(g / max(ap * viscosity, 1.0e-20), 1.0e-20) ** -0.41)
         )
 
         t2 = cfg.porosity * constants.alpha3 * max(c4, 0.0) * exp(-constants.cgm / temp_safe)
-        t4 = cfg.surface_area * akc * max(c4, 0.0)
-        t3 = cfg.ammonia_rate_scale * constants.alpha2 * max(c3, 0.0) * exp(-constants.bgm / temp_safe)
+        t4 = ap * akc * max(c4, 0.0)
+        grad3, _tgrad3 = sgrad_approx_port(
+            temp=temp_safe,
+            pressure=pressure_safe,
+            g=max(g, 1.0e-12),
+            c1=max(c1, 0.0),
+            c2=max(c2, 0.0),
+            c3=max(c3, 0.0),
+            c4=max(c4, 0.0),
+            dif3=cfg.dif3,
+            dif4=cfg.dif4,
+            a=a,
+            ap=ap,
+            kp=1.0e-4,
+        )
+        t3_arrhenius = cfg.ammonia_rate_scale * constants.alpha2 * max(c3, 0.0) * exp(-constants.bgm / temp_safe)
+        t3_sgrad = ap * max(grad3, 0.0)
+        blend = min(max(cfg.sgrad_blend, 0.0), 1.0)
+        t3 = (1.0 - blend) * t3_arrhenius + blend * t3_sgrad
+        t2 = min(max(t2, -cfg.fortran_max_source), cfg.fortran_max_source)
+        t3 = min(max(t3, -cfg.fortran_max_source), cfg.fortran_max_source)
+        t4 = min(max(t4, -cfg.fortran_max_source), cfg.fortran_max_source)
 
         source4 = cfg.feed_rate - t2 - t4
         source3 = t2 * cfg.wm3 / cfg.wm4 + t4 * cfg.wm3 / cfg.wm4 - t3
         source2 = 0.5 * t2 * cfg.wm2 / cfg.wm4 + 0.5 * t4 * cfg.wm2 / cfg.wm4 + 0.5 * t3 * cfg.wm2 / cfg.wm3
         source1 = 0.5 * t2 * cfg.wm1 / cfg.wm4 + 0.5 * t4 * cfg.wm1 / cfg.wm4 + 1.5 * t3 * cfg.wm1 / cfg.wm3
 
-        t1 = pressure_safe * wmav / (cfg.gas_constant * temp_safe * max(cfg.mass_flux, 1.0e-12))
+        t1 = pressure_safe * wmav / (cfg.gas_constant * temp_safe * max(g, 1.0e-12))
         dc4_dz = t1 * source4
         dc3_dz = t1 * source3
         dc2_dz = t1 * source2
         dc1_dz = t1 * source1
 
-        cp_mix = (c1 * cfg.cp1 + c2 * cfg.cp2 + c3 * cfg.cp3 + c4 * cfg.cp4) / max(rho, 1.0e-12)
+        cp_mix = (c1 * cp1 + c2 * cp2 + c3 * cp3 + c4 * cp4) / max(rho, 1.0e-12)
         dh_dz = (
-            -cfg.h4_reaction / cfg.mass_flux * (t2 + t4)
-            - cfg.h3_reaction / cfg.mass_flux * t3
-            - cfg.feed_rate / cfg.mass_flux * (h - cfg.hf)
+            -h4 / max(g, 1.0e-12) * (t2 + t4)
+            - h3 / max(g, 1.0e-12) * t3
+            - cfg.feed_rate / max(g, 1.0e-12) * (h - cfg.hf)
         )
         dtemp_dz = dh_dz / max(cp_mix, 1.0e-9) - cfg.heat_loss_coeff * (temp - cfg.heat_sink_temp)
 
         dp_dz = (
-            (cfg.porosity - 1.0)
-            / max(cfg.porosity**3, 1.0e-12)
-            * (1.75 + 75.0 * viscosity * (1.0 - cfg.porosity) / max(cfg.particle_radius * cfg.mass_flux, 1.0e-12))
-            * cfg.mass_flux**2
-            / (64.4 * max(cfg.particle_radius, 1.0e-12) * rho)
+            (dela - 1.0)
+            / max(dela**3, 1.0e-12)
+            * (1.75 + 75.0 * viscosity * (1.0 - dela) / max(a * cfg.mass_flux, 1.0e-12))
+            * g**2
+            / (64.4 * max(a, 1.0e-12) * rho)
         )
         dp_dz /= 144.0
 
-        c1 = max(0.0, c1 + dz * dc1_dz)
-        c2 = max(0.0, c2 + dz * dc2_dz)
-        c3 = max(0.0, c3 + dz * dc3_dz)
-        c4 = max(0.0, c4 + dz * dc4_dz)
-        h += dz * dh_dz
-        temp += dz * dtemp_dz
+        delta_c1 = dz * dc1_dz
+        delta_c2 = dz * dc2_dz
+        delta_c3 = dz * dc3_dz
+        delta_c4 = dz * dc4_dz
+        c1 = max(0.0, c1 + delta_c1)
+        c2 = max(0.0, c2 + delta_c2)
+        c3 = max(0.0, c3 + delta_c3)
+        c4 = max(0.0, c4 + delta_c4)
+
+        delta_h = max(-cfg.fortran_max_dh_step, min(cfg.fortran_max_dh_step, dz * dh_dz))
+        h += delta_h
+
+        delta_t = max(-cfg.fortran_max_dtemp_step, min(cfg.fortran_max_dtemp_step, dz * dtemp_dz))
+        temp = min(max(temp + delta_t, cfg.fortran_min_temp), cfg.fortran_max_temp)
         pressure = max(0.1, pressure + dz * dp_dz)
         z += dz
 
@@ -312,23 +371,90 @@ def run_canonical_case_equation_profile(
         liquid_steps,
     )
 
-    z_lv, h_lv = _integrate_region(
-        cfg.z_liquid_target,
-        cfg.z_lv_target,
-        c.hl,
-        lambda _z, _h: (c.hv - c.hl) / max(cfg.z_lv_target - cfg.z_liquid_target, 1e-12),
-        lv_steps,
-    )
+    if cfg.vapor_model == "fortran_inspired":
+        # Approximate FORTRAN LQVP bridge with table-driven increments.
+        h4_lv = unbar("TBLH4", c.tvap)
+        ap_lv = max(unbar("ZTBLAP", cfg.z_liquid_target), 1.0e-12)
+        _g_lv, _gmma_lv, _k_lv, _beta_lv, dpa_lv = param_port(
+            temp=c.tvap,
+            z=cfg.z_liquid_target,
+            cc=0.0,
+            hr=0.0,
+            lvop=0,
+            z0=0.0,
+            g0=cfg.mass_flux,
+            fc=cfg.feed_rate,
+            gatz0=cfg.mass_flux,
+            agm=c.agm,
+            bgm=c.bgm,
+            alpha1=c.alpha1,
+            alpha2=c.alpha2,
+            dif3=cfg.dif3,
+            dif4=cfg.dif4,
+            pressure=cfg.pressure_init,
+            kp=1.0e-4,
+            c1=1.0,
+        )
+        # Use liquid-end dH/dz and back out a compatible derivative seed.
+        liquid_dhdz_end = k_liq * liquid_rate(c.hl)
+        deriv_seed = abs(liquid_dhdz_end) / max(abs(h4_lv * dpa_lv * ap_lv), 1.0e-12)
+
+        z_lv_raw, h_lv_raw, _wfv_lv, _dhdz_lv = lqvp_port(
+            h_start=c.hl,
+            z_start=cfg.z_liquid_target,
+            deriv_start=deriv_seed,
+            dhdz_start=liquid_dhdz_end,
+            temp_vap=c.tvap,
+            hl=c.hl,
+            hv=c.hv,
+            enmx2=40.0,
+            max_steps=max(8, lv_steps * 2),
+            z0=0.0,
+            g0=cfg.mass_flux,
+            fc=cfg.feed_rate,
+            gatz0=cfg.mass_flux,
+            agm=c.agm,
+            bgm=c.bgm,
+            alpha1=c.alpha1,
+            alpha2=c.alpha2,
+            dif3=cfg.dif3,
+            dif4=cfg.dif4,
+            pressure=cfg.pressure_init,
+            kp=1.0e-4,
+            c1=1.0,
+        )
+        z_lv = z_lv_raw
+        h_lv = h_lv_raw
+        z_vapor_start = z_lv[-1]
+        h_vapor_start = h_lv[-1]
+    else:
+        z_lv, h_lv = _integrate_region(
+            cfg.z_liquid_target,
+            cfg.z_lv_target,
+            c.hl,
+            lambda _z, _h: (c.hv - c.hl) / max(cfg.z_lv_target - cfg.z_liquid_target, 1e-12),
+            lv_steps,
+        )
+        z_vapor_start = cfg.z_lv_target
+        h_vapor_start = c.hv
 
     if cfg.vapor_model == "reduced":
         z_vap, t_vap, h_vap = _run_reduced_vapor_profile(c, cfg, vapor_steps)
     elif cfg.vapor_model == "fortran_inspired":
-        z_vap, t_vap, h_vap = _run_fortran_inspired_vapor_profile(c, cfg, vapor_steps)
+        z_vap, t_vap, h_vap = _run_fortran_inspired_vapor_profile(
+            c,
+            cfg,
+            vapor_steps,
+            z_vapor_start=z_vapor_start,
+            h_vapor_start=h_vapor_start,
+        )
     else:
         raise ValueError(f"Unsupported vapor model '{cfg.vapor_model}'")
 
     z_all = z_liq + z_lv[1:] + z_vap[1:]
     h_all = h_liq + h_lv[1:] + h_vap[1:]
+    z_liq_end = z_liq[-1]
+    z_lv_end = z_lv[-1]
     t_all: List[float] = []
     for idx, h in enumerate(h_all):
         if idx < len(z_liq):
@@ -341,10 +467,10 @@ def run_canonical_case_equation_profile(
 
     rows: List[Dict[str, float]] = []
     for z, h, temp in zip(z_all, h_all, t_all):
-        if z < cfg.z_liquid_target:
+        if z < z_liq_end:
             region = "liquid"
             wfv = 0.0
-        elif z <= cfg.z_lv_target:
+        elif z <= z_lv_end:
             region = "liquid_vapor"
             wfv = (h - c.hl) / max(c.hv - c.hl, 1e-12)
         else:
