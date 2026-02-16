@@ -15,8 +15,13 @@ from kesten import SolverConfig, run_region_baseline, run_region_physics, run_re
 from kesten.bed_temperature import load_reference_bed_temperature_curve, run_full_bed_temperature_model
 
 CALIBRATED_WARNING = (
-    "EXPERIMENTAL EQUATION MODEL: current 'physics' outputs use a reduced kinetic-energy formulation "
+    "EXPERIMENTAL EQUATION MODEL: current 'physics' outputs use equation-based vapor closures "
     "for full-bed temperature with simplifying assumptions and are not yet fully validated."
+)
+FORTRAN_INSPIRED_WARNING = (
+    "FORTRAN-INSPIRED VAPOR MODE: structural equations and table lookups are partially ported "
+    "from legacy sources, but this path is still experimental and not yet a validated "
+    "reproduction of the 1968 vapor-region physics."
 )
 
 
@@ -83,6 +88,12 @@ def parse_args() -> argparse.Namespace:
         type=str,
         default=str(Path("docs") / "verification" / "general_curve_data.csv"),
         help="Reference CSV path for --plot-temp-bed when using reference or both",
+    )
+    parser.add_argument(
+        "--temp-bed-vapor-model",
+        choices=("reduced", "fortran_inspired"),
+        default="reduced",
+        help="Vapor closure for --plot-temp-bed model source",
     )
     return parser.parse_args()
 
@@ -220,9 +231,9 @@ def _plot_iterate_result(result: Dict[str, object], output_path: str = "") -> No
     plt.show()
 
 
-def _collect_bed_temperature_points(source: str) -> List[Dict[str, float]]:
+def _collect_bed_temperature_points(source: str, vapor_model: str = "reduced") -> List[Dict[str, float]]:
     if source == "physics":
-        return run_full_bed_temperature_model()
+        return run_full_bed_temperature_model(vapor_model=vapor_model)
 
     region_order = ("liquid", "liquid_vapor", "vapor")
     points: List[Dict[str, float]] = []
@@ -256,6 +267,7 @@ def _plot_temperature_vs_bed(
     compare_points: List[Dict[str, float]] | None = None,
     compare_label: str = "",
     reference_points: List[Dict[str, float]] | None = None,
+    model_label: str = "reduced",
 ) -> None:
     import matplotlib.pyplot as plt
 
@@ -297,7 +309,7 @@ def _plot_temperature_vs_bed(
         axis.legend(loc="best")
     axis.set_xlabel("Catalyst bed length Z [ft]")
     axis.set_ylabel("Temperature [degR]")
-    axis.set_title("Temperature vs catalyst bed length (reduced equation model, experimental)")
+    axis.set_title(f"Temperature vs catalyst bed length ({model_label} equation model, experimental)")
     axis.grid(True, alpha=0.3)
     fig.tight_layout()
 
@@ -320,19 +332,22 @@ def main() -> None:
         baseline_result["row_count"] = len(baseline_result["rows"])
         print(json.dumps(baseline_result, indent=2))
         if args.plot_temp_bed:
+            if args.temp_bed_vapor_model == "fortran_inspired":
+                print(FORTRAN_INSPIRED_WARNING)
             compare_points = None
             compare_label = ""
             if args.plot_compare:
-                compare_points = _collect_bed_temperature_points("physics")
+                compare_points = _collect_bed_temperature_points("physics", vapor_model=args.temp_bed_vapor_model)
                 compare_label = "physics"
             _plot_temperature_vs_bed(
-                points=_collect_bed_temperature_points("baseline"),
+                points=_collect_bed_temperature_points("baseline", vapor_model=args.temp_bed_vapor_model),
                 mode_label="baseline",
                 curve_source=args.temp_curve_source,
                 output_path=args.plot_output,
                 compare_points=compare_points,
                 compare_label=compare_label,
                 reference_points=reference_curve_points,
+                model_label=args.temp_bed_vapor_model,
             )
             return
         if args.plot or args.plot_output:
@@ -357,19 +372,22 @@ def main() -> None:
         print(json.dumps(physics_result, indent=2))
         print(CALIBRATED_WARNING)
         if args.plot_temp_bed:
+            if args.temp_bed_vapor_model == "fortran_inspired":
+                print(FORTRAN_INSPIRED_WARNING)
             compare_points = None
             compare_label = ""
             if args.plot_compare:
                 compare_points = _collect_bed_temperature_points("baseline")
                 compare_label = "baseline"
             _plot_temperature_vs_bed(
-                points=_collect_bed_temperature_points("physics"),
+                points=_collect_bed_temperature_points("physics", vapor_model=args.temp_bed_vapor_model),
                 mode_label="physics",
                 curve_source=args.temp_curve_source,
                 output_path=args.plot_output,
                 compare_points=compare_points,
                 compare_label=compare_label,
                 reference_points=reference_curve_points,
+                model_label=args.temp_bed_vapor_model,
             )
             return
         if args.plot or args.plot_output:

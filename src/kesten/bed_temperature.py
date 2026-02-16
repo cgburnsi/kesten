@@ -5,13 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Dict, List
 
-from .physics1d_equation import run_canonical_case_equation_profile
+from .physics1d_equation import EquationModelConfig, run_canonical_case_equation_profile
 
 
-def run_full_bed_temperature_model() -> List[Dict[str, float]]:
+def run_full_bed_temperature_model(vapor_model: str = "reduced") -> List[Dict[str, float]]:
     """Generate a continuous full-bed temperature profile from equation integration."""
 
-    rows = run_canonical_case_equation_profile()
+    rows = run_canonical_case_equation_profile(config=EquationModelConfig(vapor_model=vapor_model))
     return [{"Z": row["Z"], "TEMP": row["TEMP"]} for row in rows]
 
 
