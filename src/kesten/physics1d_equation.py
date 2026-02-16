@@ -49,8 +49,8 @@ class EquationModelConfig:
     wm3: float = 17.031
     wm4: float = 32.045
     gas_constant: float = 10.7316
-    pressure_init: float = 100.0
-    mass_flux: float = 2.8
+    pressure_init: float = 90.0
+    mass_flux: float = 2.2
     feed_rate: float = 0.0
     hf: float = 0.0
     porosity: float = 0.42
@@ -62,24 +62,24 @@ class EquationModelConfig:
     viscosity_temp_exp: float = 0.70
     h4_reaction: float = -715.478
     h3_reaction: float = 980.0
-    ammonia_rate_scale: float = 1.6
-    heat_loss_coeff: float = 0.06
-    heat_sink_temp: float = 1816.0
+    ammonia_rate_scale: float = 8.0
+    heat_loss_coeff: float = 0.45
+    heat_sink_temp: float = 1200.0
     cp1: float = 3.5
     cp2: float = 0.30
     cp3: float = 0.60
     cp4: float = 0.55
-    fortran_max_source: float = 2.0e4
-    fortran_max_dtemp_step: float = 35.0
-    fortran_max_dh_step: float = 250.0
+    fortran_max_source: float = 3.5e3
+    fortran_max_dtemp_step: float = 5.0
+    fortran_max_dh_step: float = 65.0
     fortran_min_temp: float = 400.0
-    fortran_max_temp: float = 3500.0
+    fortran_max_temp: float = 2150.0
     sgrad_blend: float = 0.0
     use_full_sgrad: bool = True
-    enmx3: float = 80.0
+    enmx3: float = 260.0
     adaptive_dz: bool = True
     dz_min: float = 1.0e-6
-    dz_max: float = 2.0e-3
+    dz_max: float = 3.0e-4
 
 
 def _arrhenius(alpha: float, e_over_r: float, temp: float) -> float:
